@@ -1,1 +1,1 @@
-web: gunicorn yatout_project.wsgi --log-file -
+web: python manage.py migrate && gunicorn yatout_project.wsgi
