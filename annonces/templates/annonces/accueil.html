@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accueil - Leboncoin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans">
+
+    <div class="max-w-[1000px] mx-auto bg-white min-h-screen shadow-md flex flex-col">
+        
+        <!-- HEADER -->
+        <header class="flex flex-col md:flex-row justify-between items-center md:items-start p-4 border-b border-gray-200 gap-4">
+            <div class="flex flex-col text-center md:text-left">
+                <h1 class="text-[#f56b2a] text-3xl md:text-4xl font-extrabold tracking-tighter italic">
+                    <a href="{% url 'accueil_annonces' %}">leboncoin</a>
+                    <span class="text-xs text-gray-500 block not-italic uppercase tracking-widest">Annonces</span>
+                </h1>
+            </div>
+
+            <!-- GESTION UTILISATEUR CONNECTÉ / DÉCONNECTÉ -->
+            <div class="flex flex-col items-center md:items-end w-full md:w-auto">
+                {% if user.is_authenticated %}
+                    <div class="flex items-center gap-3">
+                        <span class="text-sm font-bold text-gray-700">Bonjour, <span class="text-[#f56b2a]">{{ user.username }}</span></span>
+                        <form method="POST" action="{% url 'logout' %}" class="inline">
+                            {% csrf_token %}
+                            <button type="submit" class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold px-3 py-1 text-xs rounded border border-gray-300 transition-colors">
+                                Déconnexion
+                            </button>
+                        </form>
+                    </div>
+                {% else %}
+                    <div class="flex items-center gap-3">
+                        <a href="{% url 'connexion' %}" class="bg-[#f56b2a] hover:bg-orange-600 text-white font-bold px-4 py-1.5 text-xs rounded transition-colors uppercase tracking-wider shadow">
+                            Se connecter
+                        </a>
+                        <a href="{% url 'inscription' %}" class="text-orange-500 text-xs font-bold hover:underline">
+                            S'inscrire
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </header>
+
+        <!-- NAVIGATION -->
+        <nav class="bg-gray-50 border-b border-gray-200">
+            <div class="max-w-[1000px] mx-auto px-4 py-2 flex items-center justify-between text-xs font-bold text-gray-700 uppercase">
+                <div class="flex items-center gap-4">
+                    <a href="{% url 'accueil_annonces' %}" class="text-[#f56b2a] hover:underline">Accueil</a>
+                    <span class="text-gray-300">|</span>
+                    <a href="{% url 'deposer_annonce' %}" class="hover:underline">Déposer une annonce</a>
+                    <span class="text-gray-300">|</span>
+                    <a href="{% url 'mes_annonces' %}" class="hover:underline">Mes annonces</a>
+                    <span class="text-gray-300">|</span>
+                    <!-- BOUTON FAVORIS -->
+                    <a href="{% url 'mes_favoris' %}" class="text-amber-600 hover:underline flex items-center gap-1">
+                        ⭐ Mes Favoris
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- BANNIÈRE HERO -->
+        <section class="relative w-full h-[300px] bg-gray-900 overflow-hidden">
+            <div class="absolute inset-0">
+                <img id="hero-image" src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1200&q=80" 
+                class="w-full h-full object-cover opacity-60 transition-opacity duration-1000">
+            </div>
+            <div class="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
+                <h2 class="text-white text-4xl font-black italic uppercase tracking-tighter">Donnez une seconde vie aux objets</h2>
+                <p class="text-white text-lg mt-2 font-light">Des milliers d'annonces autour de vous.</p>
+            </div>
+        </section>
+
+        <!-- BARRE DE RECHERCHE DYNAMIQUE -->
+        <section class="bg-[#f6f6f6] p-4 border-b-2 border-[#f56b2a]">
+            <form method="GET" action="{% url 'accueil_annonces' %}" class="flex flex-wrap gap-3 items-end justify-center">
+                <!-- Recherche mot-clé -->
+                <input type="text" name="q" value="{{ request.GET.q|default:'' }}" placeholder="Que recherchez-vous ?" class="flex-1 border border-gray-300 h-10 px-3 text-sm rounded shadow-sm outline-none">
+                
+                <!-- Sélection catégorie -->
+                <select name="categorie" class="w-48 border border-gray-300 h-10 px-2 text-sm rounded bg-white shadow-sm outline-none">
+                    <option value="">Toutes catégories</option>
+                    <option value="VEHICULES" {% if request.GET.categorie == 'VEHICULES' %}selected{% endif %}>Véhicules</option>
+                    <option value="IMMOBILIER" {% if request.GET.categorie == 'IMMOBILIER' %}selected{% endif %}>Immobilier</option>
+                    <option value="AMEUBLEMENT" {% if request.GET.categorie == 'AMEUBLEMENT' %}selected{% endif %}>Ameublement</option>
+                    <option value="DIVERS" {% if request.GET.categorie == 'DIVERS' %}selected{% endif %}>Divers</option>
+                </select>
+                
+                <!-- Recherche ville -->
+                <input type="text" name="ville" value="{{ request.GET.ville|default:'' }}" placeholder="Ville ou code postal" class="w-48 border border-gray-300 h-10 px-3 text-sm rounded shadow-sm outline-none">
+                
+                <!-- Bouton soumis -->
+                <button type="submit" class="bg-[#ff6e00] text-white font-bold px-8 h-10 rounded shadow-md uppercase text-sm hover:bg-orange-600 transition-colors">Chercher</button>
+
+                <!-- Case à cocher -->
+                <div class="w-full text-center mt-2">
+                    <label class="text-[11px] text-gray-600 inline-flex items-center gap-1 cursor-pointer">
+                        <input type="checkbox" name="titre_seulement" value="1" {% if request.GET.titre_seulement %}checked{% endif %}> Recherche dans le titre uniquement
+                    </label>
+                </div>
+            </form>
+        </section>
+
+        <!-- LISTE DES ANNONCES & ASIDE -->
+        <div class="flex px-4 mt-4 gap-6">
+            <!-- LISTE PRINCIPALE -->
+            <div class="w-full md:w-3/4 flex flex-col gap-1">
+                {% for annonce in annonces %}
+                <div class="flex items-center border-b border-gray-200 py-3 hover:bg-gray-50 transition-colors">
+                    
+                    <!-- Date -->
+                    <div class="hidden sm:block w-24 text-[10px] text-gray-500">
+                        {{ annonce.date_publication|date:"d/m H:i" }}
+                    </div>
+                    
+                    <!-- Photo avec lien -->
+                    <a href="{% url 'detail_annonce' annonce.pk %}" class="w-24 h-20 md:w-40 md:h-28 flex-shrink-0 border border-gray-200 bg-gray-50 block">
+                        {% if annonce.image %}
+                            <img src="{{ annonce.image.url }}" class="object-cover w-full h-full">
+                        {% else %}
+                            <div class="flex items-center justify-center h-full text-gray-300 text-[10px]">Pas de photo</div>
+                        {% endif %}
+                    </a>
+                    
+                    <!-- Infos -->
+                    <div class="flex-1 ml-3 flex flex-col justify-between h-full">
+                        <div>
+                            <h3 class="text-blue-700 font-bold text-sm md:text-[15px] hover:underline">
+                                <a href="{% url 'detail_annonce' annonce.pk %}">{{ annonce.titre }}</a>
+                            </h3>
+                            <p class="text-[11px] text-gray-600">{{ annonce.categorie }} / {{ annonce.ville }}</p>
+                        </div>
+                        
+                        <div class="flex items-center justify-between mt-2">
+                            <p class="text-orange-600 font-bold">{{ annonce.prix }} €</p>
+                            
+                            <!-- Bouton Favori rapide ⭐ -->
+                            {% if user.is_authenticated %}
+                            <a href="{% url 'toggler_favori' annonce.pk %}" class="text-sm px-2 py-1 bg-amber-50 hover:bg-amber-100 border border-amber-200 rounded text-amber-700 transition-colors flex items-center gap-1 font-bold" title="Ajouter / Retirer des favoris">
+                                ⭐ Favori
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="p-8 text-center text-gray-500 italic">
+                    Aucune annonce ne correspond à votre recherche.
+                </div>
+                {% endfor %}
+
+                <!-- BLOC PAGINATION -->
+                {% if annonces.has_other_pages %}
+                <div class="flex justify-center items-center gap-2 py-6 border-t mt-4">
+                    {% if annonces.has_previous %}
+                        <a href="?page={{ annonces.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.categorie %}&categorie={{ request.GET.categorie }}{% endif %}{% if request.GET.ville %}&ville={{ request.GET.ville }}{% endif %}" 
+                           class="px-3 py-1 bg-gray-200 hover:bg-gray-300 text-gray-700 text-xs font-bold rounded">
+                            &laquo; Précédent
+                        </a>
+                    {% endif %}
+
+                    <span class="text-xs text-gray-600 font-bold">
+                        Page {{ annonces.number }} sur {{ annonces.paginator.num_pages }}
+                    </span>
+
+                    {% if annonces.has_next %}
+                        <a href="?page={{ annonces.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.categorie %}&categorie={{ request.GET.categorie }}{% endif %}{% if request.GET.ville %}&ville={{ request.GET.ville }}{% endif %}" 
+                           class="px-3 py-1 bg-[#f56b2a] hover:bg-orange-600 text-white text-xs font-bold rounded">
+                            Suivant &raquo;
+                        </a>
+                    {% endif %}
+                </div>
+                {% endif %}
+
+            </div>
+
+            <!-- SIDEBAR ANNONCES À LA UNE -->
+            <aside class="hidden md:block w-1/4">
+                <div class="bg-[#ff6e00] text-white text-center py-1 text-[11px] font-bold uppercase rounded-t-md">Annonces à la une</div>
+                <div class="border border-gray-200 border-t-0 p-3 bg-[#fdfdfd] flex flex-col gap-6">
+                    <div class="text-center group cursor-pointer">
+                        <div class="h-32 border border-gray-200 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1519750783826-e2420f4d687f?auto=format&fit=crop&w=200&q=80" class="object-cover w-full h-full">
+                        </div>
+                        <h4 class="text-blue-800 text-[12px] font-bold mt-2 leading-tight">Scooter neuf sunny 4t</h4>
+                        <p class="text-[13px] font-bold mt-1">699 €</p>
+                    </div>
+                </div>
+            </aside>
+        </div>
+
+        <!-- FOOTER -->
+        <footer class="mt-auto border-t-2 border-[#f56b2a] bg-[#fdfdfd]">
+            <div class="px-4 py-8 flex justify-between">
+                <div class="flex flex-col gap-1">
+                    <h5 class="text-sm font-bold uppercase">À propos</h5>
+                    <a href="#" class="text-[12px] text-blue-800">Qui sommes-nous ?</a>
+                    <a href="#" class="text-[12px] text-blue-800">Nous rejoindre</a>
+                </div>
+                <div class="flex flex-col gap-1">
+                    <h5 class="text-sm font-bold uppercase">Légal</h5>
+                    <a href="#" class="text-[12px] text-blue-800">CGU</a>
+                    <a href="#" class="text-[12px] text-blue-800">Vie privée</a>
+                </div>
+                <div class="flex flex-col gap-1">
+                    <h5 class="text-sm font-bold uppercase">Aide</h5>
+                    <a href="#" class="text-[12px] text-blue-800">Contact</a>
+                </div>
+                <div class="flex flex-col gap-2">
+                    <h5 class="text-sm font-bold uppercase">Suivez-nous</h5>
+                    <div class="flex gap-2 text-[10px] font-bold text-gray-600">
+                        <span class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">FB</span>
+                        <span class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">IG</span>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-gray-100 py-4 text-center text-[11px] text-gray-500 uppercase font-bold tracking-widest">
+                leboncoin 2006 - 2026 | Un projet de passionné
+            </div>
+        </footer>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script>
+        const images = [
+            "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1200&q=80", 
+            "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=1200&q=80",
+            "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1200&q=80"
+        ];
+
+        let currentIndex = 0;
+        const heroImage = document.getElementById('hero-image');
+
+        function changeImage() {
+            heroImage.style.opacity = '0';
+            setTimeout(() => {
+                currentIndex = (currentIndex + 1) % images.length;
+                heroImage.src = images[currentIndex];
+                heroImage.style.opacity = '0.6';
+            }, 1000);
+        }
+
+        setInterval(changeImage, 5000);
+    </script>
+</body>
+</html>

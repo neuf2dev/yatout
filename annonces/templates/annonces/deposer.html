@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Déposer une annonce - Leboncoin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans text-gray-800">
+
+    <div class="max-w-[800px] mx-auto bg-white min-h-screen shadow-md p-8">
+        <h1 class="text-[#f56b2a] text-2xl font-bold border-b-2 border-orange-500 pb-4 mb-8">
+            Déposer une annonce
+        </h1>
+
+        <form method="POST" action="{% url 'deposer_annonce' %}" enctype="multipart/form-data" class="space-y-10">
+            {% csrf_token %}
+            <div class="space-y-4">
+                <h2 class="text-lg font-bold uppercase text-gray-600 border-l-4 border-orange-500 pl-3">Votre annonce</h2>
+                
+                <div class="flex flex-col">
+                    <label class="text-sm font-semibold mb-1">Titre de l'annonce *</label>
+                    <input type="text" name="titre" class="border border-gray-300 p-2 rounded outline-none focus:border-orange-500">
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="flex flex-col">
+                        <label class="text-sm font-semibold mb-1">Catégorie *</label>
+                        <select name="categorie" class="border border-gray-300 p-2 rounded bg-white outline-none">
+                            <option value="DIVERS">Sélectionnez une catégorie</option> <option value="VEHICULES">Véhicules</option>
+                            <option value="IMMOBILIER">Immobilier</option>
+                            <option value="AMEUBLEMENT">Ameublement</option>
+                        </select>
+                    </div>
+                    <div class="flex flex-col">
+                        <label class="text-sm font-semibold mb-1">Prix (€) *</label>
+                        <input type="number" name="prix" class="border border-gray-300 p-2 rounded outline-none">
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col mt-4">
+                    <label class="text-sm font-semibold mb-1">Description de l'annonce *</label>
+                    <textarea name="description" rows="5" class="border border-gray-300 p-2 rounded outline-none focus:border-orange-500" placeholder="Décrivez votre objet avec précision..."></textarea>
+                </div>
+
+            <div class="space-y-4">
+                <h2 class="text-lg font-bold uppercase text-gray-600 border-l-4 border-orange-500 pl-3">Photos</h2>
+                <div class="border-2 border-dashed border-gray-300 p-10 text-center rounded-lg hover:border-orange-400 cursor-pointer">
+                    <p class="text-gray-500 text-sm italic">Cliquez ici pour ajouter vos photos (10 max)</p>
+                    <input type="file" name="image" class="mt-4 text-sm">
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                <h2 class="text-lg font-bold uppercase text-gray-600 border-l-4 border-orange-500 pl-3">Vos coordonnées</h2>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="flex flex-col">
+                        <label class="text-sm font-semibold mb-1">Ville ou Code Postal *</label>
+                        <input type="text" name="ville" class="border border-gray-300 p-2 rounded outline-none">
+                    </div>
+                    <div class="flex flex-col">
+                        <label class="text-sm font-semibold mb-1">Téléphone</label>
+                        <input type="tel" name="telephone" class="border border-gray-300 p-2 rounded outline-none">
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-6 border-t border-gray-200">
+                <button type="submit" class="w-full bg-[#f56b2a] text-white font-bold py-3 rounded shadow-md hover:bg-orange-600 transition-colors uppercase tracking-wider">
+                    Valider mon annonce
+                </button>
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>

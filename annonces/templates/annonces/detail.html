@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ annonce.titre }} - Leboncoin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans text-gray-800">
+
+    <div class="max-w-[1000px] mx-auto bg-white min-h-screen shadow-md flex flex-col">
+        
+        <!-- HEADER DYNAMIQUE -->
+        <header class="flex justify-between items-center p-4 border-b border-gray-200">
+            <div class="flex flex-col">
+                <h1 class="text-[#f56b2a] text-3xl md:text-4xl font-extrabold tracking-tighter italic">
+                    <a href="{% url 'accueil_annonces' %}">leboncoin</a>
+                    <span class="text-xs text-gray-500 block not-italic uppercase tracking-widest">Annonces</span>
+                </h1>
+            </div>
+
+            <div>
+                {% if user.is_authenticated %}
+                    <div class="flex items-center gap-3">
+                        <span class="text-xs font-bold text-gray-700">Bonjour, <span class="text-[#f56b2a]">{{ user.username }}</span></span>
+                        <form method="POST" action="{% url 'logout' %}" class="inline">
+                            {% csrf_token %}
+                            <button type="submit" class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold px-3 py-1 text-xs rounded transition-colors">
+                                Déconnexion
+                            </button>
+                        </form>
+                    </div>
+                {% else %}
+                    <a href="{% url 'connexion' %}" class="bg-[#f56b2a] text-white font-bold px-4 py-2 rounded text-xs hover:bg-orange-600 transition-colors uppercase">
+                        Se connecter
+                    </a>
+                {% endif %}
+            </div>
+        </header>
+
+        <!-- FIL D'ARIANE ET NAVIGATION RAPIDE -->
+        <nav class="px-4 py-2 text-[11px] text-blue-800 border-b border-gray-100 bg-gray-50 flex justify-between items-center">
+            <div>
+                <a href="{% url 'accueil_annonces' %}" class="hover:underline">Accueil</a> &gt; 
+                <span class="text-gray-600">{{ annonce.ville }}</span> &gt; 
+                <span class="text-gray-600">{{ annonce.categorie }}</span> &gt; 
+                <span class="text-gray-500 font-semibold">{{ annonce.titre }}</span>
+            </div>
+            {% if user.is_authenticated %}
+            <div class="flex gap-3">
+                <a href="{% url 'mes_messages' %}" class="text-blue-600 font-bold hover:underline flex items-center gap-1 uppercase">
+                    💬 Mes Messages
+                </a>
+                <span class="text-gray-300">|</span>
+                <a href="{% url 'mes_favoris' %}" class="text-amber-600 font-bold hover:underline flex items-center gap-1 uppercase">
+                    ⭐ Mes Favoris
+                </a>
+            </div>
+            {% endif %}
+        </nav>
+
+        <!-- CONTENU PRINCIPAL -->
+        <main class="p-4 flex flex-col md:flex-row gap-6">
+            
+            <!-- COLONNE GAUCHE -->
+            <div class="w-full md:w-2/3">
+                <h2 class="text-2xl font-bold mb-4 text-gray-900">{{ annonce.titre }}</h2>
+
+                <!-- PHOTO PRINCIPALE AVEC FLÈCHES ET COMPTEUR -->
+                <div class="relative border border-gray-300 p-1 bg-white mb-4 shadow-sm group">
+                    <div class="w-full bg-white rounded overflow-hidden flex items-center justify-center max-h-[450px]">
+                        {% if annonce.image %}
+                            <img src="{{ annonce.image.url }}" class="w-full h-auto max-h-[450px] object-cover" alt="{{ annonce.titre }}">
+                        {% else %}
+                            <div class="w-full h-64 bg-gray-100 flex items-center justify-center text-gray-400 text-sm">
+                                <span>Aucune photo disponible</span>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Flèches de navigation maquette -->
+                    <button class="absolute left-4 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white w-8 h-8 rounded-full flex items-center justify-center transition-opacity">
+                        &#10094;
+                    </button>
+                    <button class="absolute right-4 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white w-8 h-8 rounded-full flex items-center justify-center transition-opacity">
+                        &#10095;
+                    </button>
+
+                    <!-- Compteur photo -->
+                    <div class="absolute bottom-4 right-4 bg-black/60 text-white text-[11px] px-2 py-0.5 rounded font-bold">
+                        1 / 1
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center text-[11px] text-gray-500 mb-6">
+                    <p>Mise en ligne le {{ annonce.date_publication|date:"d F Y à H:i" }}</p>
+                    <p class="font-bold text-gray-700 bg-gray-200 px-2 py-0.5 rounded">👁️ {{ annonce.vues }} vue{{ annonce.vues|pluralize }}</p>
+                </div>
+
+                <!-- PRIX ET VILLE -->
+                <div class="border border-gray-200 text-sm mb-6 rounded overflow-hidden">
+                    <div class="flex border-b border-gray-200 bg-gray-50">
+                        <div class="w-1/3 p-3 font-bold border-r border-gray-200 text-orange-600 text-lg">{{ annonce.prix }} €</div>
+                        <div class="w-2/3 p-3"></div>
+                    </div>
+                    <div class="flex">
+                        <div class="w-1/3 p-3 font-bold border-r border-gray-200 bg-gray-50 text-gray-600">Ville</div>
+                        <div class="w-2/3 p-3 font-semibold">{{ annonce.ville }}</div>
+                    </div>
+                </div>
+
+                <!-- DESCRIPTION -->
+                <div class="space-y-3">
+                    <h3 class="font-bold border-b border-gray-300 pb-1 text-gray-600 uppercase text-xs">DESCRIPTION :</h3>
+                    <p class="text-sm leading-relaxed whitespace-pre-line text-gray-800">
+                        {{ annonce.description }}
+                    </p>
+                </div>
+            </div>
+
+            <!-- COLONNE DROITE -->
+            <aside class="w-full md:w-1/3 space-y-4">
+                
+                <!-- PROFIL VENDEUR & BOUTONS CONTACT + FAVORIS -->
+                <div class="bg-gray-50 border border-gray-200 rounded p-4 flex flex-col gap-3 shadow-sm">
+                    <div class="flex items-center gap-3 border-b border-gray-200 pb-3">
+                        <div class="w-10 h-10 bg-[#f56b2a] text-white rounded-full flex items-center justify-center font-bold text-lg uppercase">
+                            {{ annonce.auteur.username|default:"A"|slice:":1" }}
+                        </div>
+                        <div>
+                            <p class="text-[11px] text-gray-500">Annonce publiée par</p>
+                            <h4 class="font-bold text-gray-800 text-sm">
+                                {% if annonce.auteur %}
+                                    {{ annonce.auteur.username }}
+                                {% else %}
+                                    Anonyme
+                                {% endif %}
+                            </h4>
+                        </div>
+                    </div>
+
+                    <!-- Téléphone -->
+                    {% if annonce.telephone %}
+                    <div>
+                        <button onclick="this.nextElementSibling.classList.toggle('hidden'); this.classList.add('hidden');" 
+                                class="w-full bg-[#f56b2a] hover:bg-orange-600 text-white font-bold py-2 px-4 rounded text-xs transition-colors flex items-center justify-center gap-2 shadow">
+                            📞 {{ annonce.telephone }}
+                        </button>
+                        <a href="tel:{{ annonce.telephone }}" class="hidden w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded text-xs transition-colors text-center block shadow">
+                            📱 Appeler le {{ annonce.telephone }}
+                        </a>
+                    </div>
+                    {% endif %}
+
+                    <!-- Email -->
+                    {% if annonce.auteur.email %}
+                    <a href="mailto:{{ annonce.auteur.email }}?subject=À propos de votre annonce : {{ annonce.titre|urlencode }}" 
+                       class="w-full bg-[#4a90e2] hover:bg-blue-600 text-white font-bold py-2 px-4 rounded text-xs transition-colors flex items-center justify-center gap-2 text-center shadow">
+                        ✉️ Envoyer un email
+                    </a>
+                    {% endif %}
+
+                    <!-- BOUTON FAVORIS -->
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'toggler_favori' annonce.pk %}" 
+                       class="w-full bg-amber-500 hover:bg-amber-600 text-white font-bold py-2 px-4 rounded text-xs transition-colors flex items-center justify-center gap-2 text-center shadow border border-amber-600 mt-1">
+                        ⭐ Ajouter / Retirer des favoris
+                    </a>
+                    {% endif %}
+                </div>
+
+                <!-- SECTION MESSAGERIE DIRECTE (ACHETEUR / VENDEUR) -->
+                {% if user.is_authenticated and user != annonce.auteur %}
+                <div class="border border-blue-200 bg-blue-50/50 p-4 rounded shadow-sm">
+                    <h4 class="font-bold text-blue-900 text-xs uppercase mb-2">💬 Envoyer un message au vendeur</h4>
+                    
+                    <!-- Historique des messages déjà échangés sur cette annonce -->
+                    {% if messages %}
+                    <div class="max-h-40 overflow-y-auto mb-3 bg-white p-2 border border-gray-200 rounded space-y-2 text-xs">
+                        {% for msg in messages %}
+                        <div class="p-1.5 rounded {% if msg.expediteur == user %}bg-blue-100 text-right font-medium{% else %}bg-gray-100 text-left{% endif %}">
+                            <span class="text-[10px] text-gray-500 block">{{ msg.expediteur.username }} - {{ msg.date_envoi|date:"H:i" }}</span>
+                            {{ msg.contenu }}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    <form method="POST" action="{% url 'envoyer_message' annonce.pk %}">
+                        {% csrf_token %}
+                        <textarea name="contenu" rows="3" required placeholder="Bonjour, votre article est-il toujours disponible ?" 
+                                  class="w-full text-xs p-2 border border-gray-300 rounded mb-2 focus:outline-none focus:border-blue-500 bg-white"></textarea>
+                        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 text-xs rounded transition-colors shadow">
+                            Envoyer le message
+                        </button>
+                    </form>
+                </div>
+                {% endif %}
+
+                <!-- GÉRER VOTRE ANNONCE -->
+                {% if user.is_authenticated and user == annonce.auteur %}
+                <div class="border border-gray-200 p-4 bg-white text-[11px] rounded shadow-sm">
+                    <h4 class="font-bold text-center mb-3 text-gray-500 uppercase">Gérer votre annonce</h4>
+                    <div class="grid grid-cols-2 gap-2 text-center text-blue-800">
+                        <div class="p-2 border border-gray-100 hover:bg-gray-50 cursor-pointer flex items-center justify-center gap-1">
+                            ⭐ Mettre en avant
+                        </div>
+                        <div class="p-2 border border-gray-100 hover:bg-gray-50 cursor-pointer flex items-center justify-center gap-1">
+                            ⬆️ Remonter en tête
+                        </div>
+                        <a href="{% url 'modifier_annonce' annonce.pk %}" class="p-2 border border-gray-100 hover:bg-gray-50 cursor-pointer flex items-center justify-center gap-1 text-blue-800">
+                            ✏️ Modifier
+                        </a>
+                        <form method="POST" action="{% url 'supprimer_annonce' annonce.pk %}" onsubmit="return confirm('Supprimer définitivement cette annonce ?');" class="inline">
+                            {% csrf_token %}
+                            <button type="submit" class="w-full h-full p-2 border border-gray-100 hover:bg-red-50 text-red-600 cursor-pointer flex items-center justify-center gap-1">
+                                🗑️ Supprimer
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                {% endif %}
+
+            </aside>
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="mt-auto border-t-2 border-[#f56b2a] bg-[#fdfdfd]">
+            <div class="bg-gray-100 py-4 text-center text-[11px] text-gray-500 uppercase font-bold tracking-widest">
+                leboncoin 2006 - 2026 | Un projet de passionné
+            </div>
+        </footer>
+
+    </div>
+</body>
+</html>

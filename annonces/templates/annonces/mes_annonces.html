@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mes Annonces - Leboncoin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans text-gray-800">
+
+    <div class="max-w-[1000px] mx-auto bg-white min-h-screen shadow-md flex flex-col">
+        
+        <!-- HEADER -->
+        <header class="flex justify-between items-center p-4 border-b border-gray-200">
+            <h1 class="text-[#f56b2a] text-3xl font-extrabold italic">
+                <a href="{% url 'accueil_annonces' %}">leboncoin</a>
+            </h1>
+            <span class="text-xs font-bold text-gray-700">Bonjour, <span class="text-[#f56b2a]">{{ user.username }}</span></span>
+        </header>
+
+        <!-- NAVIGATION -->
+        <nav class="bg-gray-50 border-b border-gray-200 px-4 py-2 text-xs font-bold uppercase text-gray-700">
+            <div class="flex gap-4">
+                <a href="{% url 'accueil_annonces' %}" class="hover:underline">Accueil</a>
+                <span class="text-gray-300">|</span>
+                <a href="{% url 'mes_annonces' %}" class="text-orange-600 font-extrabold">Mes annonces</a>
+                <span class="text-gray-300">|</span>
+                <a href="{% url 'mes_favoris' %}" class="hover:underline text-amber-600">⭐ Mes Favoris</a>
+                <span class="text-gray-300">|</span>
+                <a href="{% url 'mes_messages' %}" class="hover:underline text-blue-600">💬 Mes Messages</a>
+            </div>
+        </nav>
+
+        <!-- CONTENU MES ANNONCES -->
+        <main class="p-6">
+            <div class="flex justify-between items-center mb-4 border-b pb-2">
+                <h2 class="text-xl font-bold text-gray-800">📋 Mes Annonces Publiées</h2>
+                <a href="{% url 'deposer_annonce' %}" class="bg-[#f56b2a] hover:bg-orange-600 text-white font-bold text-xs px-3 py-2 rounded transition-colors uppercase">
+                    + Déposer une annonce
+                </a>
+            </div>
+
+            <div class="space-y-4">
+                {% for annonce in annonces %}
+                <div class="border border-gray-200 rounded p-4 bg-white flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 shadow-sm hover:shadow transition-shadow">
+                    <div class="flex gap-4 items-center">
+                        <a href="{% url 'detail_annonce' annonce.pk %}" class="w-24 h-20 bg-gray-100 border rounded overflow-hidden flex-shrink-0 block">
+                            {% if annonce.image %}
+                                <img src="{{ annonce.image.url }}" class="w-full h-full object-cover" alt="{{ annonce.titre }}">
+                            {% else %}
+                                <div class="w-full h-full flex items-center justify-center text-[10px] text-gray-400">Pas de photo</div>
+                            {% endif %}
+                        </a>
+                        <div>
+                            <h3 class="font-bold text-base text-blue-800 hover:underline">
+                                <a href="{% url 'detail_annonce' annonce.pk %}">{{ annonce.titre }}</a>
+                            </h3>
+                            <p class="text-xs text-gray-500">{{ annonce.ville }} • {{ annonce.date_publication|date:"d/m/Y" }}</p>
+                            <p class="font-bold text-orange-600 text-base mt-1">{{ annonce.prix }} €</p>
+                            <span class="text-[10px] bg-gray-100 text-gray-600 px-2 py-0.5 rounded border border-gray-200 inline-block mt-1">
+                                👁️ {{ annonce.vues }} vue{{ annonce.vues|pluralize }}
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- ACTIONS SUR L'ANNONCE -->
+                    <div class="flex sm:flex-col gap-2 w-full sm:w-auto">
+                        <a href="{% url 'modifier_annonce' annonce.pk %}" class="flex-1 sm:flex-initial text-center bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold text-xs px-3 py-1.5 rounded border border-gray-300 transition-colors">
+                            ✏️ Modifier
+                        </a>
+                        <form method="POST" action="{% url 'supprimer_annonce' annonce.pk %}" onsubmit="return confirm('Supprimer définitivement cette annonce ?');" class="flex-1 sm:flex-initial">
+                            {% csrf_token %}
+                            <button type="submit" class="w-full bg-red-50 hover:bg-red-100 text-red-600 font-bold text-xs px-3 py-1.5 rounded border border-red-200 transition-colors">
+                                🗑️ Supprimer
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="py-12 text-center text-gray-500 italic bg-gray-50 border border-dashed rounded">
+                    <p class="mb-3">Vous n'avez pas encore publié d'annonce avec votre compte.</p>
+                    <a href="{% url 'deposer_annonce' %}" class="inline-block bg-[#f56b2a] text-white font-bold text-xs px-4 py-2 rounded shadow hover:bg-orange-600 transition-colors not-italic">
+                        Publier ma première annonce
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="mt-auto border-t-2 border-[#f56b2a] bg-gray-100 py-4 text-center text-[11px] text-gray-500 uppercase font-bold">
+            leboncoin 2006 - 2026 | Un projet de passionné
+        </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription - Leboncoin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans text-gray-800">
+
+    <div class="max-w-[500px] mx-auto bg-white min-h-screen sm:min-h-0 sm:my-10 shadow-md p-8 sm:rounded-lg">
+        <h1 class="text-[#f56b2a] text-2xl font-bold border-b-2 border-orange-500 pb-4 mb-6">
+            Créer un compte
+        </h1>
+
+        <form method="POST" class="space-y-4">
+            {% csrf_token %}
+            
+            {% for field in form %}
+                <div class="flex flex-col">
+                    <label class="text-sm font-semibold mb-1">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.help_text %}
+                        <span class="text-[11px] text-gray-500 mt-1">{{ field.help_text }}</span>
+                    {% endif %}
+                    {% for error in field.errors %}
+                        <span class="text-xs text-red-500 font-bold mt-1">{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+
+            <button type="submit" class="w-full bg-[#f56b2a] text-white font-bold py-3 rounded shadow-md hover:bg-orange-600 transition-colors uppercase tracking-wider mt-6">
+                M'inscrire
+            </button>
+        </form>
+
+        <div class="mt-6 text-center text-xs">
+            <p>Déjà un compte ? <a href="{% url 'accueil_annonces' %}" class="text-blue-700 font-bold hover:underline">Retour à l'accueil</a></p>
+        </div>
+    </div>
+
+    <!-- Style rapide pour harmoniser les champs générés par Django -->
+    <style>
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            border: 1px solid #d1d5db;
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            outline: none;
+        }
+        input[type="text"]:focus, input[type="password"]:focus {
+            border-color: #f56b2a;
+        }
+    </style>
+</body>
+</html>
