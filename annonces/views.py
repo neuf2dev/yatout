@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from .models import Annonce, Favori, Message
 
-# 1. Page d'accueil avec moteur de recherche + PAGINATION
+# 1. Page d'accueil avec moteur de recherche + PAGINATION + CATEGORIES DYNAMIQUES
 def accueil_annonces(request):
     annonces_list = Annonce.objects.all().order_by('-date_publication')
     
@@ -33,7 +33,15 @@ def accueil_annonces(request):
     page_number = request.GET.get('page')
     annonces = paginator.get_page(page_number)
 
-    return render(request, 'annonces/accueil.html', {'annonces': annonces})
+    # Récupération dynamique des catégories définies dans le modèle Annonce
+    categories = getattr(Annonce, 'CATEGORIES', getattr(Annonce, 'CATEGORIE_CHOICES', []))
+
+    context = {
+        'annonces': annonces,
+        'categories': categories,
+    }
+
+    return render(request, 'annonces/accueil.html', context)
 
 # 2. Formulaire pour déposer une annonce
 @login_required(login_url='connexion')
