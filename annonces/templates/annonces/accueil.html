@@ -44,53 +44,16 @@
             </div>
         </header>
 
-        <!-- NAVIGATION MEGA MENU -->
+        <!-- NAVIGATION MEGA MENU COMPLET -->
 <nav class="bg-white border-b border-gray-200 relative z-50">
     <div class="max-w-[1000px] mx-auto px-4 flex items-center justify-between text-xs font-bold text-gray-700 uppercase">
-        <div class="flex items-center gap-6">
+        <div class="flex items-center gap-5">
             
             <a href="{% url 'accueil_annonces' %}" class="py-3 text-[#1e40af] hover:border-b-2 hover:border-[#1e40af]">Accueil</a>
 
-            <!-- CATEGORIE: VÉHICULES -->
-            <div class="group py-3 cursor-pointer">
-                <a href="{% url 'accueil_annonces' %}?categorie=VEHICULES" class="hover:text-[#1e40af] flex items-center gap-1">
-                    Véhicules
-                </a>
-                <!-- PANNEAU DEROULANT -->
-                <div class="hidden group-hover:block absolute left-0 top-full w-full bg-white border-b border-gray-200 shadow-xl py-6 px-8 normal-case text-gray-700">
-                    <div class="max-w-[1000px] mx-auto grid grid-cols-3 gap-8">
-                        <div>
-                            <h4 class="font-bold text-[#1e40af] mb-2 border-b pb-1 text-sm">Voitures</h4>
-                            <ul class="space-y-1.5 text-xs text-gray-600">
-                                <li><a href="{% url 'accueil_annonces' %}?q=BMW" class="hover:text-blue-600">BMW</a></li>
-                                <li><a href="{% url 'accueil_annonces' %}?q=Audi" class="hover:text-blue-600">Audi</a></li>
-                                <li><a href="{% url 'accueil_annonces' %}?q=Peugeot" class="hover:text-blue-600">Peugeot</a></li>
-                                <li><a href="{% url 'accueil_annonces' %}?q=Renault" class="hover:text-blue-600">Renault</a></li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h4 class="font-bold text-[#1e40af] mb-2 border-b pb-1 text-sm">Motos & Deux-roues</h4>
-                            <ul class="space-y-1.5 text-xs text-gray-600">
-                                <li><a href="{% url 'accueil_annonces' %}?q=Motos" class="hover:text-blue-600">Motos</a></li>
-                                <li><a href="{% url 'accueil_annonces' %}?q=Scooter" class="hover:text-blue-600">Scooters</a></li>
-                                <li><a href="{% url 'accueil_annonces' %}?q=Velo" class="hover:text-blue-600">Vélos</a></li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h4 class="font-bold text-[#1e40af] mb-2 border-b pb-1 text-sm">Équipements & Pièces</h4>
-                            <ul class="space-y-1.5 text-xs text-gray-600">
-                                <li><a href="{% url 'accueil_annonces' %}?q=Equipement+auto" class="hover:text-blue-600">Équipement auto</a></li>
-                                <li><a href="{% url 'accueil_annonces' %}?q=Equipement+moto" class="hover:text-blue-600">Équipement moto</a></li>
-                                <li><a href="{% url 'accueil_annonces' %}?q=Mecanique" class="hover:text-blue-600">Pièces mécaniques</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             <!-- CATEGORIE: IMMOBILIER -->
             <div class="group py-3 cursor-pointer">
-                <a href="{% url 'accueil_annonces' %}?categorie=IMMOBILIER" class="hover:text-[#1e40af] flex items-center gap-1">
+                <a href="{% url 'accueil_annonces' %}?categorie=IMMOBILIER" class="hover:text-[#1e40af] border-b-2 border-transparent group-hover:border-[#1e40af] pb-3">
                     Immobilier
                 </a>
                 <div class="hidden group-hover:block absolute left-0 top-full w-full bg-white border-b border-gray-200 shadow-xl py-6 px-8 normal-case text-gray-700">
@@ -98,24 +61,174 @@
                         <div>
                             <h4 class="font-bold text-[#1e40af] mb-2 border-b pb-1 text-sm">Ventes immobilières</h4>
                             <ul class="space-y-1.5 text-xs text-gray-600">
-                                <li><a href="{% url 'accueil_annonces' %}?q=Maison" class="hover:text-blue-600">Maisons</a></li>
-                                <li><a href="{% url 'accueil_annonces' %}?q=Appartement" class="hover:text-blue-600">Appartements</a></li>
-                                <li><a href="{% url 'accueil_annonces' %}?q=Terrain" class="hover:text-blue-600">Terrains</a></li>
+                                <li><a href="{% url 'accueil_annonces' %}?q=Appartement" class="hover:text-blue-600">Appartement</a></li>
+                                <li><a href="{% url 'accueil_annonces' %}?q=Maison" class="hover:text-blue-600">Maison</a></li>
+                                <li><a href="{% url 'accueil_annonces' %}?q=Terrain" class="hover:text-blue-600">Terrain</a></li>
                             </ul>
                         </div>
                         <div>
-                            <h4 class="font-bold text-[#1e40af] mb-2 border-b pb-1 text-sm">Locations</h4>
+                            <h4 class="font-bold text-[#1e40af] mb-2 border-b pb-1 text-sm">Locations & Colocations</h4>
                             <ul class="space-y-1.5 text-xs text-gray-600">
-                                <li><a href="{% url 'accueil_annonces' %}?q=Location+appartement" class="hover:text-blue-600">Appartements</a></li>
-                                <li><a href="{% url 'accueil_annonces' %}?q=Location+maison" class="hover:text-blue-600">Maisons</a></li>
+                                <li><a href="{% url 'accueil_annonces' %}?q=Location+Appartement" class="hover:text-blue-600">Location Appartement</a></li>
+                                <li><a href="{% url 'accueil_annonces' %}?q=Location+Maison" class="hover:text-blue-600">Location Maison</a></li>
+                                <li><a href="{% url 'accueil_annonces' %}?q=Parking" class="hover:text-blue-600">Parking</a></li>
                                 <li><a href="{% url 'accueil_annonces' %}?q=Colocation" class="hover:text-blue-600">Colocations</a></li>
                             </ul>
                         </div>
                         <div>
                             <h4 class="font-bold text-[#1e40af] mb-2 border-b pb-1 text-sm">Bureaux & Commerces</h4>
                             <ul class="space-y-1.5 text-xs text-gray-600">
-                                <li><a href="{% url 'accueil_annonces' %}?q=Bureau" class="hover:text-blue-600">Bureaux</a></li>
-                                <li><a href="{% url 'accueil_annonces' %}?q=Local+commercial" class="hover:text-blue-600">Locaux commerciaux</a></li>
+                                <li><a href="{% url 'accueil_annonces' %}?q=Bureau" class="hover:text-blue-600">Bureaux & Commerces</a></li>
+                                <li><a href="{% url 'accueil_annonces' %}?q=Demenagement" class="hover:text-blue-600">Services de déménagement</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CATEGORIE: VÉHICULES -->
+            <div class="group py-3 cursor-pointer">
+                <a href="{% url 'accueil_annonces' %}?categorie=VEHICULES" class="hover:text-[#1e40af] border-b-2 border-transparent group-hover:border-[#1e40af] pb-3">
+                    Véhicules
+                </a>
+                <div class="hidden group-hover:block absolute left-0 top-full w-full bg-white border-b border-gray-200 shadow-xl py-6 px-8 normal-case text-gray-700">
+                    <div class="max-w-[1000px] mx-auto grid grid-cols-3 gap-8">
+                        <div>
+                            <h4 class="font-bold text-[#1e40af] mb-2 border-b pb-1 text-sm">Voitures & Motos</h4>
+                            <ul class="space-y-1.5 text-xs text-gray-600">
+                                <li><a href="{% url 'accueil_annonces' %}?q=Audi" class="hover:text-blue-600">Audi</a></li>
+                                <li><a href="{% url 'accueil_annonces' %}?q=BMW" class="hover:text-blue-600">BMW</a></li>
+                                <li><a href="{% url 'accueil_annonces' %}?q=Mercedes" class="hover:text-blue-600">Mercedes</a></li>
+                                <li><a href="{% url 'accueil_annonces' %}?q=Peugeot" class="hover:text-blue-600">Peugeot</a></li>
+                                <li><a href="{% url 'accueil_annonces' %}?q=Renault" class="hover:text-blue-600">Renault</a></li>
+                                <li><a href="{% url 'accueil_annonces' %}?q=Motos" class="hover:text-blue-600">Motos (Honda, Yamaha...)</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-[#1e40af] mb-2 border-b pb-1 text-sm">Utilitaires & Caravaning</h4>
+                            <ul class="space-y-1.5 text-xs text-gray-600">
+                                <li><a href="{% url 'accueil_annonces' %}?q=Utilitaire" class="hover:text-blue-600">Utilitaires</a></li>
+                                <li><a href="{% url 'accueil_annonces' %}?q=Caravaning" class="hover:text-blue-600">Caravaning</a></li>
+                                <li><a href="{% url 'accueil_annonces' %}?q=Nautisme" class="hover:text-blue-600">Nautisme</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-[#1e40af] mb-2 border-b pb-1 text-sm">Équipements & Pièces</h4>
+                            <ul class="space-y-1.5 text-xs text-gray-600">
+                                <li><a href="{% url 'accueil_annonces' %}?q=Equipement+auto" class="hover:text-blue-600">Équipement auto</a></li>
+                                <li><a href="{% url 'accueil_annonces' %}?q=Equipement+moto" class="hover:text-blue-600">Équipement moto</a></li>
+                                <li><a href="{% url 'accueil_annonces' %}?q=Reparation+mecanique" class="hover:text-blue-600">Services de réparations mécaniques</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CATEGORIE: EMPLOI -->
+            <div class="group py-3 cursor-pointer">
+                <a href="{% url 'accueil_annonces' %}?categorie=EMPLOI" class="hover:text-[#1e40af] border-b-2 border-transparent group-hover:border-[#1e40af] pb-3">
+                    Emploi
+                </a>
+                <div class="hidden group-hover:block absolute left-0 top-full w-full bg-white border-b border-gray-200 shadow-xl py-6 px-8 normal-case text-gray-700">
+                    <div class="max-w-[1000px] mx-auto grid grid-cols-3 gap-8">
+                        <div>
+                            <h4 class="font-bold text-[#1e40af] mb-2 border-b pb-1 text-sm">Offres d'emploi</h4>
+                            <ul class="space-y-1.5 text-xs text-gray-600">
+                                <li><a href="{% url 'accueil_annonces' %}?q=CDI" class="hover:text-blue-600">CDI</a></li>
+                                <li><a href="{% url 'accueil_annonces' %}?q=CDD" class="hover:text-blue-600">CDD</a></li>
+                                <li><a href="{% url 'accueil_annonces' %}?q=Interim" class="hover:text-blue-600">Intérim</a></li>
+                                <li><a href="{% url 'accueil_annonces' %}?q=Benevolat" class="hover:text-blue-600">Bénévolat</a></li>
+                                <li><a href="{% url 'accueil_annonces' %}?q=Apprentissage" class="hover:text-blue-600">Apprentissage / Stage</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-[#1e40af] mb-2 border-b pb-1 text-sm">Formations</h4>
+                            <ul class="space-y-1.5 text-xs text-gray-600">
+                                <li><a href="{% url 'accueil_annonces' %}?q=Formation" class="hover:text-blue-600">Formations professionnelles</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-[#1e40af] mb-2 border-b pb-1 text-sm">Candidats</h4>
+                            <ul class="space-y-1.5 text-xs text-gray-600">
+                                <li><a href="{% url 'accueil_annonces' %}?q=Profil+Candidat" class="hover:text-blue-600">Profil Candidat</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CATEGORIE: MODE -->
+            <div class="group py-3 cursor-pointer">
+                <a href="{% url 'accueil_annonces' %}?categorie=MODE" class="hover:text-[#1e40af] border-b-2 border-transparent group-hover:border-[#1e40af] pb-3">
+                    Mode
+                </a>
+                <div class="hidden group-hover:block absolute left-0 top-full w-full bg-white border-b border-gray-200 shadow-xl py-6 px-8 normal-case text-gray-700">
+                    <div class="max-w-[1000px] mx-auto grid grid-cols-3 gap-8">
+                        <div>
+                            <h4 class="font-bold text-[#1e40af] mb-2 border-b pb-1 text-sm">Vêtements & Chaussures</h4>
+                            <ul class="space-y-1.5 text-xs text-gray-600">
+                                <li><a href="{% url 'accueil_annonces' %}?q=Vetement+Femme" class="hover:text-blue-600">Femme</a></li>
+                                <li><a href="{% url 'accueil_annonces' %}?q=Vetement+Homme" class="hover:text-blue-600">Homme</a></li>
+                                <li><a href="{% url 'accueil_annonces' %}?q=Maternite" class="hover:text-blue-600">Maternité</a></li>
+                                <li><a href="{% url 'accueil_annonces' %}?q=Enfant" class="hover:text-blue-600">Enfant</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-[#1e40af] mb-2 border-b pb-1 text-sm">Montres & Bijoux</h4>
+                            <ul class="space-y-1.5 text-xs text-gray-600">
+                                <li><a href="{% url 'accueil_annonces' %}?q=Montres" class="hover:text-blue-600">Montres Femme / Homme</a></li>
+                                <li><a href="{% url 'accueil_annonces' %}?q=Bijoux" class="hover:text-blue-600">Bijoux</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-[#1e40af] mb-2 border-b pb-1 text-sm">Accessoires & Bagagerie</h4>
+                            <ul class="space-y-1.5 text-xs text-gray-600">
+                                <li><a href="{% url 'accueil_annonces' %}?q=Sac" class="hover:text-blue-600">Sacs & Bagages</a></li>
+                                <li><a href="{% url 'accueil_annonces' %}?q=Accessoires" class="hover:text-blue-600">Accessoires de mode</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CATEGORIE: MAISON & JARDIN (REMPLACE AMEUBLEMENT) -->
+            <div class="group py-3 cursor-pointer">
+                <a href="{% url 'accueil_annonces' %}?categorie=MAISON_JARDIN" class="hover:text-[#1e40af] border-b-2 border-transparent group-hover:border-[#1e40af] pb-3">
+                    Maison & Jardin
+                </a>
+                <div class="hidden group-hover:block absolute left-0 top-full w-full bg-white border-b border-gray-200 shadow-xl py-6 px-8 normal-case text-gray-700">
+                    <div class="max-w-[1000px] mx-auto grid grid-cols-4 gap-6">
+                        <div>
+                            <h4 class="font-bold text-[#1e40af] mb-2 border-b pb-1 text-sm">Ameublement</h4>
+                            <ul class="space-y-1.5 text-xs text-gray-600">
+                                <li><a href="{% url 'accueil_annonces' %}?q=Armoire" class="hover:text-blue-600">Armoire & Buffet</a></li>
+                                <li><a href="{% url 'accueil_annonces' %}?q=Canape" class="hover:text-blue-600">Canapé & Fauteuil</a></li>
+                                <li><a href="{% url 'accueil_annonces' %}?q=Lit" class="hover:text-blue-600">Lit & Literie</a></li>
+                                <li><a href="{% url 'accueil_annonces' %}?q=Table" class="hover:text-blue-600">Table & Chaises</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-[#1e40af] mb-2 border-b pb-1 text-sm">Électroménager</h4>
+                            <ul class="space-y-1.5 text-xs text-gray-600">
+                                <li><a href="{% url 'accueil_annonces' %}?q=Lave-linge" class="hover:text-blue-600">Lave-linge & Vaisselle</a></li>
+                                <li><a href="{% url 'accueil_annonces' %}?q=Refrigerateur" class="hover:text-blue-600">Réfrigérateur & Four</a></li>
+                                <li><a href="{% url 'accueil_annonces' %}?q=Aspirateur" class="hover:text-blue-600">Aspirateur</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-[#1e40af] mb-2 border-b pb-1 text-sm">Décoration & Linge</h4>
+                            <ul class="space-y-1.5 text-xs text-gray-600">
+                                <li><a href="{% url 'accueil_annonces' %}?q=Lampe" class="hover:text-blue-600">Luminaires & Lampes</a></li>
+                                <li><a href="{% url 'accueil_annonces' %}?q=Miroir" class="hover:text-blue-600">Miroirs & Tableaux</a></li>
+                                <li><a href="{% url 'accueil_annonces' %}?q=Linge+de+maison" class="hover:text-blue-600">Linge de maison</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-[#1e40af] mb-2 border-b pb-1 text-sm">Bricolage & Jardin</h4>
+                            <ul class="space-y-1.5 text-xs text-gray-600">
+                                <li><a href="{% url 'accueil_annonces' %}?q=Outillage" class="hover:text-blue-600">Bricolage & Outillage</a></li>
+                                <li><a href="{% url 'accueil_annonces' %}?q=Plantes" class="hover:text-blue-600">Jardin & Plantes</a></li>
+                                <li><a href="{% url 'accueil_annonces' %}?q=Service+jardinage" class="hover:text-blue-600">Services de jardinage</a></li>
                             </ul>
                         </div>
                     </div>
@@ -124,7 +237,7 @@
 
             <!-- CATEGORIE: ÉLECTRONIQUE -->
             <div class="group py-3 cursor-pointer">
-                <a href="{% url 'accueil_annonces' %}?categorie=ELECTRONIQUE" class="hover:text-[#1e40af] flex items-center gap-1">
+                <a href="{% url 'accueil_annonces' %}?categorie=ELECTRONIQUE" class="hover:text-[#1e40af] border-b-2 border-transparent group-hover:border-[#1e40af] pb-3">
                     Électronique
                 </a>
                 <div class="hidden group-hover:block absolute left-0 top-full w-full bg-white border-b border-gray-200 shadow-xl py-6 px-8 normal-case text-gray-700">
@@ -133,29 +246,61 @@
                             <h4 class="font-bold text-[#1e40af] mb-2 border-b pb-1 text-sm">Informatique</h4>
                             <ul class="space-y-1.5 text-xs text-gray-600">
                                 <li><a href="{% url 'accueil_annonces' %}?q=Ordinateurs" class="hover:text-blue-600">Ordinateurs portables / fixes</a></li>
-                                <li><a href="{% url 'accueil_annonces' %}?q=Ecran" class="hover:text-blue-600">Écrans & Équipements</a></li>
+                                <li><a href="{% url 'accueil_annonces' %}?q=Tablettes" class="hover:text-blue-600">Tablettes & Liseuses</a></li>
                             </ul>
                         </div>
                         <div>
                             <h4 class="font-bold text-[#1e40af] mb-2 border-b pb-1 text-sm">Téléphonie</h4>
                             <ul class="space-y-1.5 text-xs text-gray-600">
-                                <li><a href="{% url 'accueil_annonces' %}?q=iPhone" class="hover:text-blue-600">Smartphones & iPhones</a></li>
-                                <li><a href="{% url 'accueil_annonces' %}?q=Accessoires+telephone" class="hover:text-blue-600">Accessoires</a></li>
+                                <li><a href="{% url 'accueil_annonces' %}?q=Apple" class="hover:text-blue-600">Apple / iPhone</a></li>
+                                <li><a href="{% url 'accueil_annonces' %}?q=Samsung" class="hover:text-blue-600">Samsung</a></li>
+                                <li><a href="{% url 'accueil_annonces' %}?q=Huawei" class="hover:text-blue-600">Huawei / Xiaomi</a></li>
                             </ul>
                         </div>
                         <div>
-                            <h4 class="font-bold text-[#1e40af] mb-2 border-b pb-1 text-sm">Image & Son</h4>
+                            <h4 class="font-bold text-[#1e40af] mb-2 border-b pb-1 text-sm">Image, Son & Consoles</h4>
                             <ul class="space-y-1.5 text-xs text-gray-600">
-                                <li><a href="{% url 'accueil_annonces' %}?q=Television" class="hover:text-blue-600">Télévisions</a></li>
-                                <li><a href="{% url 'accueil_annonces' %}?q=Console" class="hover:text-blue-600">Consoles & Jeux Vidéo</a></li>
+                                <li><a href="{% url 'accueil_annonces' %}?q=Television" class="hover:text-blue-600">Télévision & Hi-Fi</a></li>
+                                <li><a href="{% url 'accueil_annonces' %}?q=Consoles" class="hover:text-blue-600">Consoles & Jeux vidéo</a></li>
                             </ul>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- AUTRES LIENS DIRECTS -->
-            <a href="{% url 'accueil_annonces' %}?categorie=AMEUBLEMENT" class="py-3 hover:text-[#1e40af]">Ameublement</a>
+            <!-- CATEGORIE: LOISIRS -->
+            <div class="group py-3 cursor-pointer">
+                <a href="{% url 'accueil_annonces' %}?categorie=LOISIRS" class="hover:text-[#1e40af] border-b-2 border-transparent group-hover:border-[#1e40af] pb-3">
+                    Loisirs
+                </a>
+                <div class="hidden group-hover:block absolute left-0 top-full w-full bg-white border-b border-gray-200 shadow-xl py-6 px-8 normal-case text-gray-700">
+                    <div class="max-w-[1000px] mx-auto grid grid-cols-3 gap-8">
+                        <div>
+                            <h4 class="font-bold text-[#1e40af] mb-2 border-b pb-1 text-sm">Culture & Musique</h4>
+                            <ul class="space-y-1.5 text-xs text-gray-600">
+                                <li><a href="{% url 'accueil_annonces' %}?q=Livres" class="hover:text-blue-600">Livres & BD</a></li>
+                                <li><a href="{% url 'accueil_annonces' %}?q=Musique" class="hover:text-blue-600">CD, Vinyles & Films</a></li>
+                                <li><a href="{% url 'accueil_annonces' %}?q=Instruments" class="hover:text-blue-600">Instruments de musique</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-[#1e40af] mb-2 border-b pb-1 text-sm">Jeux & Jouets</h4>
+                            <ul class="space-y-1.5 text-xs text-gray-600">
+                                <li><a href="{% url 'accueil_annonces' %}?q=Jeux+de+societe" class="hover:text-blue-600">Jeux de société</a></li>
+                                <li><a href="{% url 'accueil_annonces' %}?q=Jouets" class="hover:text-blue-600">Jouets d'éveil & Puzzles</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-[#1e40af] mb-2 border-b pb-1 text-sm">Sport & Vélo</h4>
+                            <ul class="space-y-1.5 text-xs text-gray-600">
+                                <li><a href="{% url 'accueil_annonces' %}?q=Velo" class="hover:text-blue-600">Vélos (Route, VTT, Électrique)</a></li>
+                                <li><a href="{% url 'accueil_annonces' %}?q=Sport" class="hover:text-blue-600">Équipements de sport & plein air</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <a href="{% url 'accueil_annonces' %}?categorie=DIVERS" class="py-3 hover:text-[#1e40af]">Divers</a>
         </div>
 
