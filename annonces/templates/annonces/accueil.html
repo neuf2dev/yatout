@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Accueil - Leboncoin</title>
+    <title>Yatout - Petites annonces entre particuliers</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 font-sans">
@@ -13,9 +13,9 @@
         <!-- HEADER -->
         <header class="flex flex-col md:flex-row justify-between items-center md:items-start p-4 border-b border-gray-200 gap-4">
             <div class="flex flex-col text-center md:text-left">
-                <h1 class="text-[#f56b2a] text-3xl md:text-4xl font-extrabold tracking-tighter italic">
-                    <a href="{% url 'accueil_annonces' %}">leboncoin</a>
-                    <span class="text-xs text-gray-500 block not-italic uppercase tracking-widest">Annonces</span>
+                <h1 class="text-[#1e40af] text-3xl md:text-4xl font-extrabold tracking-tighter italic">
+                    <a href="{% url 'accueil_annonces' %}">yatout</a>
+                    <span class="text-xs text-emerald-600 block not-italic uppercase tracking-widest font-bold">Annonces</span>
                 </h1>
             </div>
 
@@ -23,7 +23,7 @@
             <div class="flex flex-col items-center md:items-end w-full md:w-auto">
                 {% if user.is_authenticated %}
                     <div class="flex items-center gap-3">
-                        <span class="text-sm font-bold text-gray-700">Bonjour, <span class="text-[#f56b2a]">{{ user.username }}</span></span>
+                        <span class="text-sm font-bold text-gray-700">Bonjour, <span class="text-[#1e40af]">{{ user.username }}</span></span>
                         <form method="POST" action="{% url 'logout' %}" class="inline">
                             {% csrf_token %}
                             <button type="submit" class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold px-3 py-1 text-xs rounded border border-gray-300 transition-colors">
@@ -33,10 +33,10 @@
                     </div>
                 {% else %}
                     <div class="flex items-center gap-3">
-                        <a href="{% url 'connexion' %}" class="bg-[#f56b2a] hover:bg-orange-600 text-white font-bold px-4 py-1.5 text-xs rounded transition-colors uppercase tracking-wider shadow">
+                        <a href="{% url 'connexion' %}" class="bg-[#1e40af] hover:bg-blue-800 text-white font-bold px-4 py-1.5 text-xs rounded transition-colors uppercase tracking-wider shadow">
                             Se connecter
                         </a>
-                        <a href="{% url 'inscription' %}" class="text-orange-500 text-xs font-bold hover:underline">
+                        <a href="{% url 'inscription' %}" class="text-blue-700 text-xs font-bold hover:underline">
                             S'inscrire
                         </a>
                     </div>
@@ -48,9 +48,9 @@
         <nav class="bg-gray-50 border-b border-gray-200">
             <div class="max-w-[1000px] mx-auto px-4 py-2 flex items-center justify-between text-xs font-bold text-gray-700 uppercase">
                 <div class="flex items-center gap-4">
-                    <a href="{% url 'accueil_annonces' %}" class="text-[#f56b2a] hover:underline">Accueil</a>
+                    <a href="{% url 'accueil_annonces' %}" class="text-[#1e40af] hover:underline">Accueil</a>
                     <span class="text-gray-300">|</span>
-                    <a href="{% url 'deposer_annonce' %}" class="hover:underline">Déposer une annonce</a>
+                    <a href="{% url 'deposer_annonce' %}" class="hover:underline text-emerald-700">Déposer une annonce</a>
                     <span class="text-gray-300">|</span>
                     <a href="{% url 'mes_annonces' %}" class="hover:underline">Mes annonces</a>
                     <span class="text-gray-300">|</span>
@@ -63,25 +63,25 @@
         </nav>
 
         <!-- BANNIÈRE HERO -->
-        <section class="relative w-full h-[300px] bg-gray-900 overflow-hidden">
+        <section class="relative w-full h-[300px] bg-slate-900 overflow-hidden">
             <div class="absolute inset-0">
                 <img id="hero-image" src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1200&q=80" 
                 class="w-full h-full object-cover opacity-60 transition-opacity duration-1000">
             </div>
             <div class="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
                 <h2 class="text-white text-4xl font-black italic uppercase tracking-tighter">Donnez une seconde vie aux objets</h2>
-                <p class="text-white text-lg mt-2 font-light">Des milliers d'annonces autour de vous.</p>
+                <p class="text-white text-lg mt-2 font-light">Des milliers d'annonces autour de vous sur Yatout.</p>
             </div>
         </section>
 
         <!-- BARRE DE RECHERCHE DYNAMIQUE -->
-        <section class="bg-[#f6f6f6] p-4 border-b-2 border-[#f56b2a]">
+        <section class="bg-[#f8fafc] p-4 border-b-2 border-[#1e40af]">
             <form method="GET" action="{% url 'accueil_annonces' %}" class="flex flex-wrap gap-3 items-end justify-center">
                 <!-- Recherche mot-clé -->
-                <input type="text" name="q" value="{{ request.GET.q|default:'' }}" placeholder="Que recherchez-vous ?" class="flex-1 border border-gray-300 h-10 px-3 text-sm rounded shadow-sm outline-none">
+                <input type="text" name="q" value="{{ request.GET.q|default:'' }}" placeholder="Que recherchez-vous ?" class="flex-1 border border-gray-300 h-10 px-3 text-sm rounded shadow-sm outline-none focus:border-blue-500">
                 
                 <!-- Sélection catégorie -->
-                <select name="categorie" class="w-48 border border-gray-300 h-10 px-2 text-sm rounded bg-white shadow-sm outline-none">
+                <select name="categorie" class="w-48 border border-gray-300 h-10 px-2 text-sm rounded bg-white shadow-sm outline-none focus:border-blue-500">
                     <option value="">Toutes catégories</option>
                     <option value="VEHICULES" {% if request.GET.categorie == 'VEHICULES' %}selected{% endif %}>Véhicules</option>
                     <option value="IMMOBILIER" {% if request.GET.categorie == 'IMMOBILIER' %}selected{% endif %}>Immobilier</option>
@@ -90,10 +90,10 @@
                 </select>
                 
                 <!-- Recherche ville -->
-                <input type="text" name="ville" value="{{ request.GET.ville|default:'' }}" placeholder="Ville ou code postal" class="w-48 border border-gray-300 h-10 px-3 text-sm rounded shadow-sm outline-none">
+                <input type="text" name="ville" value="{{ request.GET.ville|default:'' }}" placeholder="Ville ou code postal" class="w-48 border border-gray-300 h-10 px-3 text-sm rounded shadow-sm outline-none focus:border-blue-500">
                 
                 <!-- Bouton soumis -->
-                <button type="submit" class="bg-[#ff6e00] text-white font-bold px-8 h-10 rounded shadow-md uppercase text-sm hover:bg-orange-600 transition-colors">Chercher</button>
+                <button type="submit" class="bg-[#1e40af] text-white font-bold px-8 h-10 rounded shadow-md uppercase text-sm hover:bg-blue-800 transition-colors">Chercher</button>
 
                 <!-- Case à cocher -->
                 <div class="w-full text-center mt-2">
@@ -135,7 +135,7 @@
                         </div>
                         
                         <div class="flex items-center justify-between mt-2">
-                            <p class="text-orange-600 font-bold">{{ annonce.prix }} €</p>
+                            <p class="text-[#1e40af] font-bold text-base">{{ annonce.prix }} €</p>
                             
                             <!-- Bouton Favori rapide ⭐ -->
                             {% if user.is_authenticated %}
@@ -168,7 +168,7 @@
 
                     {% if annonces.has_next %}
                         <a href="?page={{ annonces.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.categorie %}&categorie={{ request.GET.categorie }}{% endif %}{% if request.GET.ville %}&ville={{ request.GET.ville }}{% endif %}" 
-                           class="px-3 py-1 bg-[#f56b2a] hover:bg-orange-600 text-white text-xs font-bold rounded">
+                           class="px-3 py-1 bg-[#1e40af] hover:bg-blue-800 text-white text-xs font-bold rounded">
                             Suivant &raquo;
                         </a>
                     {% endif %}
@@ -179,38 +179,38 @@
 
             <!-- SIDEBAR ANNONCES À LA UNE -->
             <aside class="hidden md:block w-1/4">
-                <div class="bg-[#ff6e00] text-white text-center py-1 text-[11px] font-bold uppercase rounded-t-md">Annonces à la une</div>
+                <div class="bg-[#1e40af] text-white text-center py-1 text-[11px] font-bold uppercase rounded-t-md">Annonces à la une</div>
                 <div class="border border-gray-200 border-t-0 p-3 bg-[#fdfdfd] flex flex-col gap-6">
                     <div class="text-center group cursor-pointer">
                         <div class="h-32 border border-gray-200 overflow-hidden">
                             <img src="https://images.unsplash.com/photo-1519750783826-e2420f4d687f?auto=format&fit=crop&w=200&q=80" class="object-cover w-full h-full">
                         </div>
                         <h4 class="text-blue-800 text-[12px] font-bold mt-2 leading-tight">Scooter neuf sunny 4t</h4>
-                        <p class="text-[13px] font-bold mt-1">699 €</p>
+                        <p class="text-[13px] font-bold mt-1 text-[#1e40af]">699 €</p>
                     </div>
                 </div>
             </aside>
         </div>
 
         <!-- FOOTER -->
-        <footer class="mt-auto border-t-2 border-[#f56b2a] bg-[#fdfdfd]">
+        <footer class="mt-auto border-t-2 border-[#1e40af] bg-[#fdfdfd]">
             <div class="px-4 py-8 flex justify-between">
                 <div class="flex flex-col gap-1">
-                    <h5 class="text-sm font-bold uppercase">À propos</h5>
-                    <a href="#" class="text-[12px] text-blue-800">Qui sommes-nous ?</a>
-                    <a href="#" class="text-[12px] text-blue-800">Nous rejoindre</a>
+                    <h5 class="text-sm font-bold uppercase text-gray-800">À propos</h5>
+                    <a href="#" class="text-[12px] text-blue-800 hover:underline">Qui sommes-nous ?</a>
+                    <a href="#" class="text-[12px] text-blue-800 hover:underline">Nous rejoindre</a>
                 </div>
                 <div class="flex flex-col gap-1">
-                    <h5 class="text-sm font-bold uppercase">Légal</h5>
-                    <a href="#" class="text-[12px] text-blue-800">CGU</a>
-                    <a href="#" class="text-[12px] text-blue-800">Vie privée</a>
+                    <h5 class="text-sm font-bold uppercase text-gray-800">Légal</h5>
+                    <a href="#" class="text-[12px] text-blue-800 hover:underline">CGU</a>
+                    <a href="#" class="text-[12px] text-blue-800 hover:underline">Vie privée</a>
                 </div>
                 <div class="flex flex-col gap-1">
-                    <h5 class="text-sm font-bold uppercase">Aide</h5>
-                    <a href="#" class="text-[12px] text-blue-800">Contact</a>
+                    <h5 class="text-sm font-bold uppercase text-gray-800">Aide</h5>
+                    <a href="#" class="text-[12px] text-blue-800 hover:underline">Contact</a>
                 </div>
                 <div class="flex flex-col gap-2">
-                    <h5 class="text-sm font-bold uppercase">Suivez-nous</h5>
+                    <h5 class="text-sm font-bold uppercase text-gray-800">Suivez-nous</h5>
                     <div class="flex gap-2 text-[10px] font-bold text-gray-600">
                         <span class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">FB</span>
                         <span class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">IG</span>
@@ -218,7 +218,7 @@
                 </div>
             </div>
             <div class="bg-gray-100 py-4 text-center text-[11px] text-gray-500 uppercase font-bold tracking-widest">
-                leboncoin 2006 - 2026 | Un projet de passionné
+                yatout 2026 | Un projet de passionné
             </div>
         </footer>
     </div>
