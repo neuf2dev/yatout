@@ -1,51 +1,104 @@
 {% extends 'annonces/accueil.html' %}
 
 {% block content %}
-<div class="p-6 max-w-[1000px] mx-auto">
-    <h2 class="text-2xl font-bold text-gray-800 mb-6">Vous avez 2 recherches sauvegardées</h2>
+<div class="w-full px-6 py-8">
+    
+    <!-- TITRE & EN-TÊTE -->
+    <div class="mb-6">
+        <h2 class="text-2xl font-extrabold text-gray-900">Vous avez 2 recherches sauvegardées</h2>
+        <div class="mt-3">
+            <button class="inline-flex items-center gap-2 border border-gray-300 rounded-full px-4 py-1.5 text-xs font-bold text-gray-700 hover:bg-gray-50 transition-colors shadow-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
+                </svg>
+                Tri : Nouveaux résultats
+            </button>
+        </div>
+    </div>
 
-    <div class="flex flex-col gap-4">
-        <!-- Recherche 1 -->
-        <div class="border border-gray-200 rounded-xl p-5 bg-white shadow-sm hover:shadow-md transition-shadow">
+    <!-- LISTE DES RECHERCHES (PLEINE LARGEUR) -->
+    <div class="flex flex-col gap-5">
+        
+        <!-- CARTE RECHERCHE 1 -->
+        <div class="border border-gray-200 rounded-2xl p-6 bg-white shadow-sm hover:shadow-md transition-shadow relative">
             <div class="flex justify-between items-start">
-                <div>
-                    <span class="inline-block bg-gray-100 text-gray-600 text-[11px] font-bold px-2 py-0.5 rounded mb-2">🚗 Véhicules</span>
-                    <h3 class="text-lg font-bold text-gray-900 flex items-center gap-2">
-                        panne <span class="bg-orange-500 text-white text-xs px-2 py-0.5 rounded-full font-bold">14</span>
+                <div class="space-y-1">
+                    <span class="inline-flex items-center gap-1 bg-gray-100 text-gray-700 text-xs font-semibold px-2.5 py-1 rounded-md mb-1">
+                        🚗 Voitures
+                    </span>
+                    <h3 class="text-xl font-bold text-gray-900 flex items-center gap-2">
+                        panne 
+                        <span class="bg-orange-500 text-white text-xs px-2 py-0.5 rounded-full font-bold">14</span>
                     </h3>
-                    <p class="text-sm text-gray-600 mt-1 font-semibold">300 - 1 500 €</p>
-                    <p class="text-xs text-gray-400 mt-1">Île-de-France • Enregistrée récemment</p>
+                    <p class="text-sm font-semibold text-gray-800">300 - 1 500 €</p>
+                    <p class="text-xs text-gray-500">Île-de-France • 27 févr. 2026</p>
                 </div>
-                <a href="{% url 'accueil_annonces' %}?q=panne&categorie=VEHICULES" class="bg-[#1e40af] hover:bg-blue-800 text-white text-xs font-bold px-4 py-2 rounded-lg transition-colors">
-                    Voir les annonces
-                </a>
+
+                <!-- BOUTON D'ACTION DÉPORTÉ À DROITE -->
+                <div class="flex items-center gap-3">
+                    <a href="{% url 'accueil_annonces' %}?q=panne&categorie=VEHICULES" class="bg-[#1e40af] hover:bg-blue-800 text-white text-xs font-bold px-5 py-2.5 rounded-lg transition-colors shadow-sm">
+                        Voir les annonces
+                    </a>
+                    <button class="text-gray-400 hover:text-gray-600 p-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+                        </svg>
+                    </button>
+                </div>
             </div>
-            <div class="mt-4 pt-3 border-t border-gray-100 flex items-center justify-between text-xs text-gray-500">
-                <span class="flex items-center gap-1">🔔 Être alerté des nouvelles annonces</span>
-                <span class="text-emerald-600 font-bold">Activé</span>
+
+            <!-- PIED DE CARTE ALERTE -->
+            <div class="mt-6 pt-4 border-t border-gray-100 flex items-center gap-3">
+                <span class="text-xs font-medium text-gray-700">Être alerté des nouvelles annonces</span>
+                <button class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-700 transition-colors">
+                    🔔
+                </button>
+                <button class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-700 transition-colors">
+                    ✉️
+                </button>
             </div>
         </div>
 
-        <!-- Recherche 2 -->
-        <div class="border border-gray-200 rounded-xl p-5 bg-white shadow-sm hover:shadow-md transition-shadow">
+        <!-- CARTE RECHERCHE 2 -->
+        <div class="border border-gray-200 rounded-2xl p-6 bg-white shadow-sm hover:shadow-md transition-shadow relative">
             <div class="flex justify-between items-start">
-                <div>
-                    <span class="inline-block bg-gray-100 text-gray-600 text-[11px] font-bold px-2 py-0.5 rounded mb-2">📚 Livres & Culture</span>
-                    <h3 class="text-lg font-bold text-gray-900 flex items-center gap-2">
-                        "python" <span class="bg-orange-500 text-white text-xs px-2 py-0.5 rounded-full font-bold">50+</span>
+                <div class="space-y-1">
+                    <span class="inline-flex items-center gap-1 bg-gray-100 text-gray-700 text-xs font-semibold px-2.5 py-1 rounded-md mb-1">
+                        📚 Livres
+                    </span>
+                    <h3 class="text-xl font-bold text-gray-900 flex items-center gap-2">
+                        "python" (Livres)
+                        <span class="bg-orange-500 text-white text-xs px-2 py-0.5 rounded-full font-bold">50+</span>
                     </h3>
-                    <p class="text-sm text-gray-600 mt-1 font-semibold">20 € max</p>
-                    <p class="text-xs text-gray-400 mt-1">Toute la France • Enregistrée récemment</p>
+                    <p class="text-sm font-semibold text-gray-800">20 € max</p>
+                    <p class="text-xs text-gray-500">Toute la France • 28 mai 2020</p>
                 </div>
-                <a href="{% url 'accueil_annonces' %}?q=python" class="bg-[#1e40af] hover:bg-blue-800 text-white text-xs font-bold px-4 py-2 rounded-lg transition-colors">
-                    Voir les annonces
-                </a>
+
+                <!-- BOUTON D'ACTION DÉPORTÉ À DROITE -->
+                <div class="flex items-center gap-3">
+                    <a href="{% url 'accueil_annonces' %}?q=python" class="bg-[#1e40af] hover:bg-blue-800 text-white text-xs font-bold px-5 py-2.5 rounded-lg transition-colors shadow-sm">
+                        Voir les annonces
+                    </a>
+                    <button class="text-gray-400 hover:text-gray-600 p-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+                        </svg>
+                    </button>
+                </div>
             </div>
-            <div class="mt-4 pt-3 border-t border-gray-100 flex items-center justify-between text-xs text-gray-500">
-                <span class="flex items-center gap-1">🔔 Être alerté des nouvelles annonces</span>
-                <span class="text-emerald-600 font-bold">Activé</span>
+
+            <!-- PIED DE CARTE ALERTE -->
+            <div class="mt-6 pt-4 border-t border-gray-100 flex items-center gap-3">
+                <span class="text-xs font-medium text-gray-700">Être alerté des nouvelles annonces</span>
+                <button class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-700 transition-colors">
+                    🔕
+                </button>
+                <button class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-700 transition-colors">
+                    ✉️
+                </button>
             </div>
         </div>
+
     </div>
 </div>
 {% endblock %}
