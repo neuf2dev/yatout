@@ -1,0 +1,51 @@
+{% extends 'annonces/accueil.html' %}
+
+{% block content %}
+<div class="p-6 max-w-[1000px] mx-auto">
+    <h2 class="text-2xl font-bold text-gray-800 mb-6">Vous avez 2 recherches sauvegardées</h2>
+
+    <div class="flex flex-col gap-4">
+        <!-- Recherche 1 -->
+        <div class="border border-gray-200 rounded-xl p-5 bg-white shadow-sm hover:shadow-md transition-shadow">
+            <div class="flex justify-between items-start">
+                <div>
+                    <span class="inline-block bg-gray-100 text-gray-600 text-[11px] font-bold px-2 py-0.5 rounded mb-2">🚗 Véhicules</span>
+                    <h3 class="text-lg font-bold text-gray-900 flex items-center gap-2">
+                        panne <span class="bg-orange-500 text-white text-xs px-2 py-0.5 rounded-full font-bold">14</span>
+                    </h3>
+                    <p class="text-sm text-gray-600 mt-1 font-semibold">300 - 1 500 €</p>
+                    <p class="text-xs text-gray-400 mt-1">Île-de-France • Enregistrée récemment</p>
+                </div>
+                <a href="{% url 'accueil_annonces' %}?q=panne&categorie=VEHICULES" class="bg-[#1e40af] hover:bg-blue-800 text-white text-xs font-bold px-4 py-2 rounded-lg transition-colors">
+                    Voir les annonces
+                </a>
+            </div>
+            <div class="mt-4 pt-3 border-t border-gray-100 flex items-center justify-between text-xs text-gray-500">
+                <span class="flex items-center gap-1">🔔 Être alerté des nouvelles annonces</span>
+                <span class="text-emerald-600 font-bold">Activé</span>
+            </div>
+        </div>
+
+        <!-- Recherche 2 -->
+        <div class="border border-gray-200 rounded-xl p-5 bg-white shadow-sm hover:shadow-md transition-shadow">
+            <div class="flex justify-between items-start">
+                <div>
+                    <span class="inline-block bg-gray-100 text-gray-600 text-[11px] font-bold px-2 py-0.5 rounded mb-2">📚 Livres & Culture</span>
+                    <h3 class="text-lg font-bold text-gray-900 flex items-center gap-2">
+                        "python" <span class="bg-orange-500 text-white text-xs px-2 py-0.5 rounded-full font-bold">50+</span>
+                    </h3>
+                    <p class="text-sm text-gray-600 mt-1 font-semibold">20 € max</p>
+                    <p class="text-xs text-gray-400 mt-1">Toute la France • Enregistrée récemment</p>
+                </div>
+                <a href="{% url 'accueil_annonces' %}?q=python" class="bg-[#1e40af] hover:bg-blue-800 text-white text-xs font-bold px-4 py-2 rounded-lg transition-colors">
+                    Voir les annonces
+                </a>
+            </div>
+            <div class="mt-4 pt-3 border-t border-gray-100 flex items-center justify-between text-xs text-gray-500">
+                <span class="flex items-center gap-1">🔔 Être alerté des nouvelles annonces</span>
+                <span class="text-emerald-600 font-bold">Activé</span>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

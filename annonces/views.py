@@ -207,3 +207,8 @@ def mon_compte(request):
 def deconnexion(request):
     logout(request)
     return redirect('accueil_annonces')
+
+# 15. Page Mes Recherches Sauvegardées
+@login_required(login_url='connexion')
+def mes_recherches(request):
+    return render(request, 'annonces/mes_recherches.html')

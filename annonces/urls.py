@@ -16,4 +16,5 @@ urlpatterns = [
     path('mes-messages/', views.mes_messages, name='mes_messages'),
     path('envoyer-message/<int:pk>/', views.envoyer_message, name='envoyer_message'),
     path('mon-compte/', views.mon_compte, name='mon_compte'),
+    path('mes-recherches/', views.mes_recherches, name='mes_recherches'),
 ]
