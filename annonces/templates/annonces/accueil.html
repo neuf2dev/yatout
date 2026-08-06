@@ -29,6 +29,20 @@
         Déposer une annonce
     </a>
 
+    <!-- BARRE DE RECHERCHE COMPACTE (MASQUÉE SUR L'ACCUEIL, VISIBLE PARTOUT AILLEURS) -->
+    {% if request.resolver_match.url_name != 'accueil_annonces' %}
+    <form method="GET" action="{% url 'accueil_annonces' %}" class="flex-1 max-w-md mx-4">
+        <div class="relative flex items-center">
+            <input type="text" name="q" placeholder="Rechercher sur Yatout" class="w-full bg-gray-100 hover:bg-gray-200/70 focus:bg-white text-gray-800 text-xs rounded-full py-2.5 pl-4 pr-10 border border-transparent focus:border-[#1e40af] outline-none transition-all shadow-inner">
+            <button type="submit" class="absolute right-1.5 p-1.5 bg-[#1e40af] hover:bg-blue-800 text-white rounded-full transition-colors shadow-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+            </button>
+        </div>
+    </form>
+    {% endif %}
+
     <!-- MENU HAUT DROITE (UTILISATEUR CONNECTÉ / DÉCONNECTÉ) -->
     <div class="flex items-center gap-6">
         {% if user.is_authenticated %}
