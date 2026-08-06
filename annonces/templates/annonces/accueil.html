@@ -10,39 +10,90 @@
 
     <div class="max-w-[1000px] mx-auto bg-white min-h-screen shadow-md flex flex-col">
         
-        <!-- HEADER -->
-        <header class="flex flex-col md:flex-row justify-between items-center md:items-start p-4 border-b border-gray-200 gap-4">
-            <div class="flex flex-col text-center md:text-left">
-                <h1 class="text-[#1e40af] text-3xl md:text-4xl font-extrabold tracking-tighter italic">
-                    <a href="{% url 'accueil_annonces' %}">yatout</a>
-                    <span class="text-xs text-emerald-600 block not-italic uppercase tracking-widest font-bold">Annonces</span>
-                </h1>
+        <!-- HEADER UNIFIÉ AVEC MENU ICÔNES -->
+<header class="flex flex-col md:flex-row justify-between items-center p-4 border-b border-gray-200 gap-4 bg-white">
+    
+    <!-- LOGO YATOUT -->
+    <div class="flex items-center">
+        <h1 class="text-[#1e40af] text-3xl md:text-4xl font-extrabold tracking-tighter italic">
+            <a href="{% url 'accueil_annonces' %}">yatout</a>
+            <span class="text-xs text-emerald-600 block not-italic uppercase tracking-widest font-bold -mt-1">Annonces</span>
+        </h1>
+    </div>
+
+    <!-- BOUTON DÉPOSER UNE ANNONCE -->
+    <a href="{% url 'deposer_annonce' %}" class="bg-[#1e40af] hover:bg-blue-800 text-white font-bold px-4 py-2 rounded-lg text-xs flex items-center gap-2 shadow-sm transition-colors uppercase tracking-wider">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4" />
+        </svg>
+        Déposer une annonce
+    </a>
+
+    <!-- MENU HAUT DROITE (UTILISATEUR CONNECTÉ / DÉCONNECTÉ) -->
+    <div class="flex items-center gap-6">
+        {% if user.is_authenticated %}
+            <!-- Mes Recherches -->
+            <a href="{% url 'accueil_annonces' %}" class="flex flex-col items-center text-gray-700 hover:text-[#1e40af] transition-colors group">
+                <div class="relative">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                    </svg>
+                </div>
+                <span class="text-[11px] font-semibold mt-0.5">Mes recherches</span>
+            </a>
+
+            <!-- Favoris -->
+            <a href="{% url 'mes_favoris' %}" class="flex flex-col items-center text-gray-700 hover:text-[#1e40af] transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.684a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                </svg>
+                <span class="text-[11px] font-semibold mt-0.5">Favoris</span>
+            </a>
+
+            <!-- Messages -->
+            <a href="{% url 'mes_messages' %}" class="flex flex-col items-center text-gray-700 hover:text-[#1e40af] transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                </svg>
+                <span class="text-[11px] font-semibold mt-0.5">Messages</span>
+            </a>
+
+            <!-- Mon Compte / Déconnexion -->
+            <div class="flex flex-col items-center group relative cursor-pointer">
+                <a href="{% url 'mon_compte' %}" class="flex flex-col items-center text-gray-700 hover:text-[#1e40af]">
+                    <div class="w-7 h-7 rounded-full bg-[#1e40af] text-white flex items-center justify-center font-bold text-xs">
+                        {{ user.username|slice:":1"|upper }}
+                    </div>
+                    <span class="text-[11px] font-semibold mt-0.5">{{ user.username }}</span>
+                </a>
+                
+                <!-- Sous-menu profil au survol -->
+                <div class="hidden group-hover:block absolute right-0 top-full mt-1 w-40 bg-white border border-gray-200 shadow-lg rounded-md py-2 z-50 normal-case">
+                    <a href="{% url 'mon_compte' %}" class="block px-4 py-1.5 text-xs text-gray-700 hover:bg-gray-100">Tableau de bord</a>
+                    <a href="{% url 'mes_annonces' %}" class="block px-4 py-1.5 text-xs text-gray-700 hover:bg-gray-100">Mes annonces</a>
+                    <form method="POST" action="{% url 'logout' %}" class="block w-full">
+                        {% csrf_token %}
+                        <button type="submit" class="w-full text-left px-4 py-1.5 text-xs text-red-600 hover:bg-gray-100 font-bold border-t border-gray-100 mt-1 pt-1.5">
+                            Déconnexion
+                        </button>
+                    </form>
+                </div>
             </div>
 
-            <!-- GESTION UTILISATEUR CONNECTÉ / DÉCONNECTÉ -->
-            <div class="flex flex-col items-center md:items-end w-full md:w-auto">
-                {% if user.is_authenticated %}
-                    <div class="flex items-center gap-3">
-                        <span class="text-sm font-bold text-gray-700">Bonjour, <span class="text-[#1e40af]">{{ user.username }}</span></span>
-                        <form method="POST" action="{% url 'logout' %}" class="inline">
-                            {% csrf_token %}
-                            <button type="submit" class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold px-3 py-1 text-xs rounded border border-gray-300 transition-colors">
-                                Déconnexion
-                            </button>
-                        </form>
-                    </div>
-                {% else %}
-                    <div class="flex items-center gap-3">
-                        <a href="{% url 'connexion' %}" class="bg-[#1e40af] hover:bg-blue-800 text-white font-bold px-4 py-1.5 text-xs rounded transition-colors uppercase tracking-wider shadow">
-                            Se connecter
-                        </a>
-                        <a href="{% url 'inscription' %}" class="text-blue-700 text-xs font-bold hover:underline">
-                            S'inscrire
-                        </a>
-                    </div>
-                {% endif %}
-            </div>
-        </header>
+        {% else %}
+            <!-- Utilisateur non connecté -->
+            <a href="{% url 'connexion' %}" class="flex flex-col items-center text-gray-700 hover:text-[#1e40af] transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+                <span class="text-[11px] font-semibold mt-0.5">Se connecter</span>
+            </a>
+            <a href="{% url 'inscription' %}" class="text-xs text-blue-700 font-bold hover:underline">
+                S'inscrire
+            </a>
+        {% endif %}
+    </div>
+</header>
 
         <!-- NAVIGATION MEGA MENU COMPLET -->
         <nav class="bg-white border-b border-gray-200 relative z-50">
