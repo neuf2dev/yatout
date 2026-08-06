@@ -1,72 +1,13 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mes Messages - Leboncoin</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100 font-sans text-gray-800">
+{% extends 'annonces/accueil.html' %}
 
-    <div class="max-w-[1000px] mx-auto bg-white min-h-screen shadow-md flex flex-col">
-        
-        <!-- HEADER -->
-        <header class="flex justify-between items-center p-4 border-b border-gray-200">
-            <h1 class="text-[#f56b2a] text-3xl font-extrabold italic">
-                <a href="{% url 'accueil_annonces' %}">leboncoin</a>
-            </h1>
-            <span class="text-xs font-bold text-gray-700">Bonjour, <span class="text-[#f56b2a]">{{ user.username }}</span></span>
-        </header>
+{% block content %}
+<div class="p-6 max-w-[1000px] mx-auto min-h-[400px]">
+    <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+        💬 Ma boîte de réception
+    </h2>
 
-        <!-- NAVIGATION CORRIGÉE -->
-        <nav class="bg-gray-50 border-b border-gray-200 px-4 py-2 text-xs font-bold uppercase text-gray-700">
-            <div class="flex gap-4">
-                <a href="{% url 'accueil_annonces' %}" class="hover:underline">Accueil</a>
-                <span class="text-gray-300">|</span>
-                <a href="{% url 'mes_annonces' %}" class="hover:underline">Mes annonces</a>
-                <span class="text-gray-300">|</span>
-                <a href="{% url 'mes_favoris' %}" class="hover:underline text-amber-600">⭐ Mes Favoris</a>
-                <span class="text-gray-300">|</span>
-                <a href="{% url 'mes_messages' %}" class="text-blue-600 font-extrabold">💬 Mes Messages</a>
-            </div>
-        </nav>
-
-        <!-- CONTENU MESSAGES -->
-        <main class="p-6">
-            <h2 class="text-xl font-bold mb-4 border-b pb-2 text-gray-800">💬 Ma boîte de réception</h2>
-
-            <div class="space-y-3">
-                {% for msg in messages %}
-                <div class="p-4 border border-gray-200 rounded bg-gray-50 flex justify-between items-start hover:bg-white transition-colors">
-                    <div>
-                        <div class="flex items-center gap-2 mb-1">
-                            <span class="font-bold text-xs text-blue-700">
-                                {% if msg.expediteur == user %}
-                                    À {{ msg.destinataire.username }}
-                                {% else %}
-                                    De {{ msg.expediteur.username }}
-                                {% endif %}
-                            </span>
-                            <span class="text-[10px] text-gray-400">• {{ msg.date_envoi|date:"d/m/Y à H:i" }}</span>
-                        </div>
-                        <p class="text-xs font-semibold text-gray-900 mb-1">Annonce : {{ msg.annonce.titre }}</p>
-                        <p class="text-sm text-gray-700 bg-white p-2 border border-gray-200 rounded">{{ msg.contenu }}</p>
-                    </div>
-                    
-                    <a href="{% url 'detail_annonce' msg.annonce.pk %}" class="text-xs text-orange-600 font-bold hover:underline border border-orange-200 px-3 py-1 bg-orange-50 rounded">
-                        Voir l'annonce &rarr;
-                    </a>
-                </div>
-                {% empty %}
-                <p class="text-sm text-gray-500 italic py-8 text-center">Vous n'avez aucun message pour le moment.</p>
-                {% endfor %}
-            </div>
-        </main>
-
-        <!-- FOOTER -->
-        <footer class="mt-auto border-t-2 border-[#f56b2a] bg-gray-100 py-4 text-center text-[11px] text-gray-500 uppercase font-bold">
-            leboncoin 2006 - 2026 | Un projet de passionné
-        </footer>
+    <div class="p-12 text-center text-gray-500 italic bg-white border border-gray-200 rounded-xl">
+        Vous n'avez aucun message pour le moment.
     </div>
-</body>
-</html>
+</div>
+{% endblock %}

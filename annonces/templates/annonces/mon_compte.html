@@ -1,114 +1,69 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mon Compte - Yatout</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100 font-sans text-gray-800">
+{% extends 'annonces/accueil.html' %}
 
-    <div class="max-w-[1000px] mx-auto bg-white min-h-screen shadow-md flex flex-col">
-        
-        <!-- HEADER -->
-        <header class="flex justify-between items-center p-4 border-b border-gray-200">
-            <h1 class="text-[#f56b2a] text-3xl font-extrabold italic">
-                <a href="{% url 'accueil_annonces' %}">leboncoin</a>
-            </h1>
-            <span class="text-xs font-bold text-gray-700">Bonjour, <span class="text-[#f56b2a]">{{ user.username }}</span></span>
-        </header>
-
-        <!-- NAVIGATION -->
-        <nav class="bg-gray-50 border-b border-gray-200 px-4 py-2 text-xs font-bold uppercase text-gray-700">
-            <div class="flex gap-4">
-                <a href="{% url 'accueil_annonces' %}" class="hover:underline">Accueil</a>
-                <span class="text-gray-300">|</span>
-                <a href="{% url 'mes_annonces' %}" class="hover:underline">Mes annonces</a>
-                <span class="text-gray-300">|</span>
-                <a href="{% url 'mes_favoris' %}" class="hover:underline text-amber-600">⭐ Mes Favoris</a>
-                <span class="text-gray-300">|</span>
-                <a href="{% url 'mes_messages' %}" class="hover:underline text-blue-600">💬 Mes Messages</a>
+{% block content %}
+<div class="p-6 max-w-[1000px] mx-auto min-h-[400px]">
+    
+    <!-- BANNIÈRE PROFIL UTILISATEUR -->
+    <div class="bg-amber-100/60 border border-amber-200 rounded-2xl p-6 flex items-center justify-between mb-8 shadow-sm">
+        <div class="flex items-center gap-4">
+            <div class="w-16 h-16 rounded-full bg-[#1e40af] text-white flex items-center justify-center font-bold text-2xl shadow">
+                {{ user.username|slice:":1"|upper }}
             </div>
-        </nav>
-
-        <!-- CONTENU TABLEAU DE BORD MON COMPTE -->
-        <main class="p-6">
-            
-            <!-- BLOC CARTE UTILISATEUR EN HAUT -->
-            <div class="bg-gradient-to-r from-orange-50 to-orange-100 border border-orange-200 rounded-xl p-6 mb-6 flex items-center justify-between shadow-sm">
-                <div class="flex items-center gap-4">
-                    <!-- AVATAR AVEC INITIALE -->
-                    <div class="w-16 h-16 bg-[#f56b2a] text-white rounded-full flex items-center justify-center text-2xl font-extrabold uppercase shadow">
-                        {{ user.username|slice:":1" }}
-                    </div>
-                    <div>
-                        <h2 class="text-xl font-bold text-gray-900">{{ user.username }}</h2>
-                        <p class="text-xs text-gray-600 mt-0.5">Membre certifié Yatout • {{ user.email }}</p>
-                    </div>
-                </div>
-                <a href="{% url 'logout' %}" class="bg-white hover:bg-red-50 text-red-600 border border-red-200 font-bold text-xs px-4 py-2 rounded-lg transition-colors">
-                    Déconnexion
-                </a>
+            <div>
+                <h2 class="text-xl font-bold text-gray-900">{{ user.email|default:user.username }}</h2>
+                <p class="text-xs text-gray-600">Membre certifié Yatout •</p>
             </div>
-
-            <!-- GRILLE DES RACCOURCIS D'ACTIVITÉS -->
-            <h3 class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3">Mes Activités</h3>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-                
-                <!-- Carte Annonces -->
-                <a href="{% url 'mes_annonces' %}" class="border border-gray-200 rounded-xl p-5 bg-white hover:shadow-md hover:border-orange-300 transition-all block relative">
-                    <div class="flex justify-between items-start mb-2">
-                        <span class="text-2xl">📋</span>
-                        <span class="bg-orange-100 text-orange-700 font-extrabold text-xs px-2.5 py-1 rounded-full border border-orange-200">
-                            {{ nb_annonces }}
-                        </span>
-                    </div>
-                    <h4 class="font-bold text-gray-900 text-base">Mes Annonces</h4>
-                    <p class="text-xs text-gray-500 mt-1">Gérer vos ventes et modifier vos annonces</p>
-                </a>
-
-                <!-- Carte Favoris -->
-                <a href="{% url 'mes_favoris' %}" class="border border-gray-200 rounded-xl p-5 bg-white hover:shadow-md hover:border-amber-300 transition-all block relative">
-                    <div class="flex justify-between items-start mb-2">
-                        <span class="text-2xl">⭐</span>
-                        <span class="bg-amber-100 text-amber-800 font-extrabold text-xs px-2.5 py-1 rounded-full border border-amber-200">
-                            {{ nb_favoris }}
-                        </span>
-                    </div>
-                    <h4 class="font-bold text-gray-900 text-base">Mes Favoris</h4>
-                    <p class="text-xs text-gray-500 mt-1">Consulter vos coups de cœur enregistrés</p>
-                </a>
-
-                <!-- Carte Messages -->
-                <a href="{% url 'mes_messages' %}" class="border border-gray-200 rounded-xl p-5 bg-white hover:shadow-md hover:border-blue-300 transition-all block relative">
-                    <div class="flex justify-between items-start mb-2">
-                        <span class="text-2xl">💬</span>
-                        <span class="bg-blue-100 text-blue-700 font-extrabold text-xs px-2.5 py-1 rounded-full border border-blue-200">
-                            {{ nb_messages }}
-                        </span>
-                    </div>
-                    <h4 class="font-bold text-gray-900 text-base">Boîte de Réception</h4>
-                    <p class="text-xs text-gray-500 mt-1">Accéder à vos discussions vendeurs/acheteurs</p>
-                </a>
-
-            </div>
-
-            <!-- RACCOURCI PUBLIER -->
-            <div class="border border-dashed border-orange-300 bg-orange-50/50 rounded-xl p-6 text-center">
-                <h4 class="font-bold text-gray-800 text-sm mb-1">Vous avez un objet ou un bien à vendre ?</h4>
-                <p class="text-xs text-gray-500 mb-4">C'est gratuit et ça prend moins de 2 minutes.</p>
-                <a href="{% url 'deposer_annonce' %}" class="inline-block bg-[#f56b2a] hover:bg-orange-600 text-white font-bold text-xs px-5 py-2.5 rounded-lg shadow transition-colors uppercase">
-                    + Déposer une annonce maintenant
-                </a>
-            </div>
-
-        </main>
-
-        <!-- FOOTER -->
-        <footer class="mt-auto border-t-2 border-[#f56b2a] bg-gray-100 py-4 text-center text-[11px] text-gray-500 uppercase font-bold">
-            leboncoin 2006 - 2026 | Un projet de passionné
-        </footer>
+        </div>
+        <form method="POST" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="border border-red-300 bg-white hover:bg-red-50 text-red-600 text-xs font-bold px-4 py-2 rounded-lg transition-colors">
+                Déconnexion
+            </button>
+        </form>
     </div>
-</body>
-</html>
+
+    <!-- SECTION MES ACTIVITÉS -->
+    <h3 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-4">Mes activités</h3>
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+        <!-- Mes Annonces -->
+        <a href="{% url 'mes_annonces' %}" class="border border-gray-200 rounded-xl p-5 bg-white shadow-sm hover:shadow-md transition-shadow group">
+            <div class="flex justify-between items-center mb-2">
+                <span class="text-2xl">📋</span>
+                <span class="bg-amber-100 text-amber-800 text-xs font-bold px-2.5 py-0.5 rounded-full">0</span>
+            </div>
+            <h4 class="font-bold text-gray-900 group-hover:text-[#1e40af]">Mes Annonces</h4>
+            <p class="text-xs text-gray-500 mt-1">Gérer vos ventes et modifier vos annonces</p>
+        </a>
+
+        <!-- Mes Favoris -->
+        <a href="{% url 'mes_favoris' %}" class="border border-gray-200 rounded-xl p-5 bg-white shadow-sm hover:shadow-md transition-shadow group">
+            <div class="flex justify-between items-center mb-2">
+                <span class="text-2xl">⭐</span>
+                <span class="bg-amber-100 text-amber-800 text-xs font-bold px-2.5 py-0.5 rounded-full">0</span>
+            </div>
+            <h4 class="font-bold text-gray-900 group-hover:text-[#1e40af]">Mes Favoris</h4>
+            <p class="text-xs text-gray-500 mt-1">Consulter vos coups de cœur enregistrés</p>
+        </a>
+
+        <!-- Boîte de Réception -->
+        <a href="{% url 'mes_messages' %}" class="border border-gray-200 rounded-xl p-5 bg-white shadow-sm hover:shadow-md transition-shadow group">
+            <div class="flex justify-between items-center mb-2">
+                <span class="text-2xl">💬</span>
+                <span class="bg-blue-100 text-blue-800 text-xs font-bold px-2.5 py-0.5 rounded-full">0</span>
+            </div>
+            <h4 class="font-bold text-gray-900 group-hover:text-[#1e40af]">Boîte de Réception</h4>
+            <p class="text-xs text-gray-500 mt-1">Accéder à vos discussions vendeurs/acheteurs</p>
+        </a>
+    </div>
+
+    <!-- ENCART DÉPOSER UNE ANNONCE -->
+    <div class="border-2 border-dashed border-orange-300 bg-orange-50/50 rounded-2xl p-8 text-center flex flex-col items-center">
+        <h4 class="text-base font-bold text-gray-900">Vous avez un objet ou un bien à vendre ?</h4>
+        <p class="text-xs text-gray-600 mt-1">C'est gratuit et ça prend moins de 2 minutes.</p>
+        <a href="{% url 'deposer_annonce' %}" class="mt-4 bg-[#1e40af] hover:bg-blue-800 text-white font-bold text-xs uppercase tracking-wider px-6 py-3 rounded-lg shadow transition-colors">
+            + Déposer une annonce maintenant
+        </a>
+    </div>
+</div>
+{% endblock %}
