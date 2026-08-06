@@ -423,17 +423,132 @@
 
         <!-- BANNIÈRE HERO -->
         <section class="relative w-full h-[300px] bg-slate-900 overflow-hidden">
-            ...
+            <div class="absolute inset-0">
+                <img id="hero-image" src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1200&q=80" 
+                class="w-full h-full object-cover opacity-60 transition-opacity duration-1000">
+            </div>
+            <div class="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
+                <h2 class="text-white text-4xl font-black italic uppercase tracking-tighter">Donnez une seconde vie aux objets</h2>
+                <p class="text-white text-lg mt-2 font-light">Des milliers d'annonces autour de vous sur Yatout.</p>
+            </div>
         </section>
 
         <!-- BARRE DE RECHERCHE DYNAMIQUE -->
         <section class="bg-[#f8fafc] p-4 border-b-2 border-[#1e40af]">
-            ...
+            <form method="GET" action="{% url 'accueil_annonces' %}" class="flex flex-wrap gap-3 items-end justify-center">
+                <!-- Recherche mot-clé -->
+                <input type="text" name="q" value="{{ request.GET.q|default:'' }}" placeholder="Que recherchez-vous ?" class="flex-1 border border-gray-300 h-10 px-3 text-sm rounded shadow-sm outline-none focus:border-blue-500">
+                
+                <!-- Sélection catégorie -->
+                <select name="categorie" class="w-48 border border-gray-300 h-10 px-2 text-sm rounded bg-white shadow-sm outline-none focus:border-blue-500">
+                    <option value="">Toutes catégories</option>
+                    <option value="VEHICULES" {% if request.GET.categorie == 'VEHICULES' %}selected{% endif %}>Véhicules</option>
+                    <option value="IMMOBILIER" {% if request.GET.categorie == 'IMMOBILIER' %}selected{% endif %}>Immobilier</option>
+                    <option value="AMEUBLEMENT" {% if request.GET.categorie == 'AMEUBLEMENT' %}selected{% endif %}>Ameublement</option>
+                    <option value="DIVERS" {% if request.GET.categorie == 'DIVERS' %}selected{% endif %}>Divers</option>
+                </select>
+                
+                <!-- Recherche ville -->
+                <input type="text" name="ville" value="{{ request.GET.ville|default:'' }}" placeholder="Ville ou code postal" class="w-48 border border-gray-300 h-10 px-3 text-sm rounded shadow-sm outline-none focus:border-blue-500">
+                
+                <!-- Bouton soumis -->
+                <button type="submit" class="bg-[#1e40af] text-white font-bold px-8 h-10 rounded shadow-md uppercase text-sm hover:bg-blue-800 transition-colors">Chercher</button>
+
+                <!-- Case à cocher -->
+                <div class="w-full text-center mt-2">
+                    <label class="text-[11px] text-gray-600 inline-flex items-center gap-1 cursor-pointer">
+                        <input type="checkbox" name="titre_seulement" value="1" {% if request.GET.titre_seulement %}checked{% endif %}> Recherche dans le titre uniquement
+                    </label>
+                </div>
+            </form>
         </section>
 
         <!-- LISTE DES ANNONCES & ASIDE -->
         <div class="flex px-4 mt-4 gap-6">
-            ...
+            <!-- LISTE PRINCIPALE -->
+            <div class="w-full md:w-3/4 flex flex-col gap-1">
+                {% for annonce in annonces %}
+                <div class="flex items-center border-b border-gray-200 py-3 hover:bg-gray-50 transition-colors">
+                    
+                    <!-- Date -->
+                    <div class="hidden sm:block w-24 text-[10px] text-gray-500">
+                        {{ annonce.date_publication|date:"d/m H:i" }}
+                    </div>
+                    
+                    <!-- Photo avec lien -->
+                    <a href="{% url 'detail_annonce' annonce.pk %}" class="w-24 h-20 md:w-40 md:h-28 flex-shrink-0 border border-gray-200 bg-gray-50 block">
+                        {% if annonce.image %}
+                            <img src="{{ annonce.image.url }}" class="object-cover w-full h-full">
+                        {% else %}
+                            <div class="flex items-center justify-center h-full text-gray-300 text-[10px]">Pas de photo</div>
+                        {% endif %}
+                    </a>
+                    
+                    <!-- Infos -->
+                    <div class="flex-1 ml-3 flex flex-col justify-between h-full">
+                        <div>
+                            <h3 class="text-blue-700 font-bold text-sm md:text-[15px] hover:underline">
+                                <a href="{% url 'detail_annonce' annonce.pk %}">{{ annonce.titre }}</a>
+                            </h3>
+                            <p class="text-[11px] text-gray-600">{{ annonce.categorie }} / {{ annonce.ville }}</p>
+                        </div>
+                        
+                        <div class="flex items-center justify-between mt-2">
+                            <p class="text-[#1e40af] font-bold text-base">{{ annonce.prix }} €</p>
+                            
+                            <!-- Bouton Favori rapide ⭐ -->
+                            {% if user.is_authenticated %}
+                            <a href="{% url 'toggler_favori' annonce.pk %}" class="text-sm px-2 py-1 bg-amber-50 hover:bg-amber-100 border border-amber-200 rounded text-amber-700 transition-colors flex items-center gap-1 font-bold" title="Ajouter / Retirer des favoris">
+                                ⭐ Favori
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="p-8 text-center text-gray-500 italic">
+                    Aucune annonce ne correspond à votre recherche.
+                </div>
+                {% endfor %}
+
+                <!-- BLOC PAGINATION -->
+                {% if annonces.has_other_pages %}
+                <div class="flex justify-center items-center gap-2 py-6 border-t mt-4">
+                    {% if annonces.has_previous %}
+                        <a href="?page={{ annonces.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.categorie %}&categorie={{ request.GET.categorie }}{% endif %}{% if request.GET.ville %}&ville={{ request.GET.ville }}{% endif %}" 
+                           class="px-3 py-1 bg-gray-200 hover:bg-gray-300 text-gray-700 text-xs font-bold rounded">
+                            &laquo; Précédent
+                        </a>
+                    {% endif %}
+
+                    <span class="text-xs text-gray-600 font-bold">
+                        Page {{ annonces.number }} sur {{ annonces.paginator.num_pages }}
+                    </span>
+
+                    {% if annonces.has_next %}
+                        <a href="?page={{ annonces.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.categorie %}&categorie={{ request.GET.categorie }}{% endif %}{% if request.GET.ville %}&ville={{ request.GET.ville }}{% endif %}" 
+                           class="px-3 py-1 bg-[#1e40af] hover:bg-blue-800 text-white text-xs font-bold rounded">
+                            Suivant &raquo;
+                        </a>
+                    {% endif %}
+                </div>
+                {% endif %}
+
+            </div>
+
+            <!-- SIDEBAR ANNONCES À LA UNE -->
+            <aside class="hidden md:block w-1/4">
+                <div class="bg-[#1e40af] text-white text-center py-1 text-[11px] font-bold uppercase rounded-t-md">Annonces à la une</div>
+                <div class="border border-gray-200 border-t-0 p-3 bg-[#fdfdfd] flex flex-col gap-6">
+                    <div class="text-center group cursor-pointer">
+                        <div class="h-32 border border-gray-200 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1519750783826-e2420f4d687f?auto=format&fit=crop&w=200&q=80" class="object-cover w-full h-full">
+                        </div>
+                        <h4 class="text-blue-800 text-[12px] font-bold mt-2 leading-tight">Scooter neuf sunny 4t</h4>
+                        <p class="text-[13px] font-bold mt-1 text-[#1e40af]">699 €</p>
+                    </div>
+                </div>
+            </aside>
         </div>
 
         {% endblock %}
