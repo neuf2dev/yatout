@@ -3,6 +3,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
 class Annonce(models.Model):
     CATEGORIES = [
         ('VEHICULES', 'Véhicules'),
@@ -11,7 +12,19 @@ class Annonce(models.Model):
         ('DIVERS', 'Divers'),
     ]
 
-    # ICI : auteur SANS null=True ni blank=True pour forcer la présence d'un utilisateur !
+    TYPE_CHOICES = [
+        ('OFFRE', 'Offre'),
+        ('DEMANDE', 'Demande'),
+    ]
+
+    # Nouveau champ
+    type_annonce = models.CharField(
+        max_length=10,
+        choices=TYPE_CHOICES,
+        default='OFFRE',
+        verbose_name="Type d'annonce"
+    )
+
     auteur = models.ForeignKey(User, on_delete=models.CASCADE, related_name='annonces')
     titre = models.CharField(max_length=200)
     categorie = models.CharField(max_length=50, choices=CATEGORIES)

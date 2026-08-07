@@ -5,6 +5,7 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from .models import Annonce, Favori, Message
+from .forms import AnnonceForm
 
 # 1. Page d'accueil avec moteur de recherche + PAGINATION + CATEGORIES DYNAMIQUES
 def accueil_annonces(request):
@@ -43,31 +44,51 @@ def accueil_annonces(request):
 
     return render(request, 'annonces/accueil.html', context)
 
-# 2. Formulaire pour déposer une annonce
+# 2. Formulaire pour déposer une annonce (Offre ou Demande)
 @login_required(login_url='connexion')
 def deposer_annonce(request):
+    type_selected = request.GET.get('type', 'OFFRE').upper()
+    if type_selected not in ['OFFRE', 'DEMANDE']:
+        type_selected = 'OFFRE'
+
     if request.method == 'POST':
-        titre = request.POST.get('titre')
-        categorie = request.POST.get('categorie')
-        prix = request.POST.get('prix')
-        description = request.POST.get('description')
-        ville = request.POST.get('ville')
-        telephone = request.POST.get('telephone')
-        image = request.FILES.get('image')
+        form = AnnonceForm(request.POST, request.FILES)
+        if form.is_valid():
+            annonce = form.save(commit=False)
+            annonce.auteur = request.user
+            annonce.save()
+            return redirect('mes_annonces')
+        else:
+            # Traitement manuel de secours si le template utilise des champs HTML bruts
+            type_annonce = request.POST.get('type_annonce', type_selected)
+            titre = request.POST.get('titre')
+            categorie = request.POST.get('categorie')
+            prix = request.POST.get('prix')
+            description = request.POST.get('description')
+            ville = request.POST.get('ville')
+            telephone = request.POST.get('telephone')
+            image = request.FILES.get('image')
 
-        Annonce.objects.create(
-            auteur=request.user,
-            titre=titre,
-            categorie=categorie,
-            prix=prix,
-            description=description,
-            ville=ville,
-            telephone=telephone,
-            image=image
-        )
-        return redirect('mes_annonces')
+            if titre and categorie and prix and description and ville:
+                Annonce.objects.create(
+                    auteur=request.user,
+                    type_annonce=type_annonce,
+                    titre=titre,
+                    categorie=categorie,
+                    prix=prix,
+                    description=description,
+                    ville=ville,
+                    telephone=telephone,
+                    image=image
+                )
+                return redirect('mes_annonces')
+    else:
+        form = AnnonceForm(initial={'type_annonce': type_selected})
 
-    return render(request, 'annonces/deposer.html')
+    return render(request, 'annonces/deposer.html', {
+        'form': form,
+        'type_selected': type_selected
+    })
 
 # 3. Page de détail d'une annonce
 def detail_annonce(request, pk):
@@ -129,6 +150,7 @@ def modifier_annonce(request, pk):
     annonce = get_object_or_404(Annonce, pk=pk, auteur=request.user)
 
     if request.method == 'POST':
+        annonce.type_annonce = request.POST.get('type_annonce', annonce.type_annonce)
         annonce.titre = request.POST.get('titre')
         annonce.categorie = request.POST.get('categorie')
         annonce.prix = request.POST.get('prix')
